@@ -1,6 +1,15 @@
-import { hot } from 'react-hot-loader';
-import * as React from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline'
+import React from 'react'
+import { hot } from 'react-hot-loader'
+import Main from './pages/Main'
 
-const App = () => <div>Hewwo</div>;
+const AppComponent: React.FC = () => (
+  <React.StrictMode>
+    <CssBaseline />
+    <Main />
+  </React.StrictMode>
+);
 
-export default hot(module)(App);
+const App = hot(module)(AppComponent)
+
+export default App;
