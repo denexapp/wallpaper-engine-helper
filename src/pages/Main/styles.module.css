@@ -1,0 +1,11 @@
+.main {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+}
+
+.buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
