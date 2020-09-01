@@ -19,8 +19,30 @@ const Main: React.FC = () => {
   const [archiveNumber, setArchiveNumber] = useState(0)
   const [description, setDescription] = useState('')
 
+  const handleFolderNameClick = async () => {
+    await copyToClipboard(wallpaperName)
+  }
+
   const handleVideoNameClick = async () => {
     await copyToClipboard(wallpaperName)
+  }
+
+  const handleArchiveNameClick = async () => {
+    await copyToClipboard(`${archiveNumber} - ${wallpaperName}`)
+  }
+
+  const handlePostTextClick = async () => {
+    const text = `Рубрика #тема_дня@wp.engine:
+${wallpaperName} (тип темы - сцена)
+${description}`
+    await copyToClipboard(text)
+  }
+
+  const handleVideoDescriptionClick = async () => {
+    const text = `Мастерская Steam: ${wallpaperLink}
+Скачать архив здесь: 
+Сообщество ВКонтакте: https://vk.com/wp.engine`
+    await copyToClipboard(text)
   }
 
   return (
@@ -57,19 +79,39 @@ const Main: React.FC = () => {
         multiline
       />
       <div className={styles.buttons}>
-        <Button variant="contained" startIcon={<FileCopyIcon />}>
+        <Button
+          onClick={handleFolderNameClick}
+          variant="contained"
+          startIcon={<FileCopyIcon />}
+        >
           <TypedMessage id="mainFolderName" />
         </Button>
-        <Button onClick={handleVideoNameClick} variant="contained" startIcon={<FileCopyIcon />}>
+        <Button
+          onClick={handleVideoNameClick}
+          variant="contained"
+          startIcon={<FileCopyIcon />}
+        >
           <TypedMessage id="mainVideoName" />
         </Button>
-        <Button variant="contained" startIcon={<FileCopyIcon />}>
+        <Button
+          onClick={handleArchiveNameClick}
+          variant="contained"
+          startIcon={<FileCopyIcon />}
+        >
           <TypedMessage id="mainArchiveName" />
         </Button>
-        <Button variant="contained" startIcon={<FileCopyIcon />}>
+        <Button
+          onClick={handlePostTextClick}
+          variant="contained"
+          startIcon={<FileCopyIcon />}
+        >
           <TypedMessage id="mainPostText" />
         </Button>
-        <Button variant="contained" startIcon={<FileCopyIcon />}>
+        <Button
+          onClick={handleVideoDescriptionClick}
+          variant="contained"
+          startIcon={<FileCopyIcon />}
+        >
           <TypedMessage id="mainVideoDescription" />
         </Button>
       </div>
