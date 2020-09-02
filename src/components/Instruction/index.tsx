@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemText, Typography } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 import React from 'react'
 import TypedMessage from '../../components/TypedMessage'
 import styles from './styles.module.css'
