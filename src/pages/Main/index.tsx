@@ -5,6 +5,7 @@ import styles from './styles.module.css'
 import FileCopyIcon from '@material-ui/icons/FileCopy'
 import TypedMessage from '../../components/TypedMessage'
 import useCopyToClipboard from '../../hooks/useCopyToClipboard'
+import Instruction from '../../components/Instruction'
 
 const Main: React.FC = () => {
   const copyToClipboard = useCopyToClipboard()
@@ -47,73 +48,86 @@ ${description}`
 
   return (
     <div className={styles.main}>
-      <Typography variant="h6">
+      <Typography variant="h5">
         <TypedMessage id="mainHeader" />
       </Typography>
-      <TextField
-        value={wallpaperName}
-        onChange={event => setWallpaperName(event.target.value)}
-        label={wallpaperNameLabel}
-        variant="outlined"
-      />
-      <TextField
-        value={wallpaperLink}
-        onChange={event => setWallpaperLink(event.target.value)}
-        label={wallpaperLinkLabel}
-        variant="outlined"
-      />
-      <TextField
-        value={archiveNumber}
-        onChange={event =>
-          setArchiveNumber(Number.parseInt(event.currentTarget.value, 10))
-        }
-        label={archiveNumberLabel}
-        variant="outlined"
-        type="number"
-      />
-      <TextField
-        value={description}
-        onChange={event => setDescription(event.target.value)}
-        label={descriptionLabel}
-        variant="outlined"
-        multiline
-      />
-      <div className={styles.buttons}>
-        <Button
-          onClick={handleFolderNameClick}
-          variant="contained"
-          startIcon={<FileCopyIcon />}
-        >
-          <TypedMessage id="mainFolderName" />
-        </Button>
-        <Button
-          onClick={handleVideoNameClick}
-          variant="contained"
-          startIcon={<FileCopyIcon />}
-        >
-          <TypedMessage id="mainVideoName" />
-        </Button>
-        <Button
-          onClick={handleArchiveNameClick}
-          variant="contained"
-          startIcon={<FileCopyIcon />}
-        >
-          <TypedMessage id="mainArchiveName" />
-        </Button>
-        <Button
-          onClick={handlePostTextClick}
-          variant="contained"
-          startIcon={<FileCopyIcon />}
-        >
-          <TypedMessage id="mainPostText" />
-        </Button>
-        <Button
-          onClick={handleVideoDescriptionClick}
-          variant="contained"
-          startIcon={<FileCopyIcon />}
-        >
-          <TypedMessage id="mainVideoDescription" />
-        </Button>
+      <div className={styles.columns}>
+        <div className={styles.mainColumn}>
+          <Typography variant="h6">
+            <TypedMessage id="mainPostBundling" />
+          </Typography>
+          <TextField
+            value={wallpaperName}
+            onChange={event => setWallpaperName(event.target.value)}
+            label={wallpaperNameLabel}
+            variant="outlined"
+          />
+          <TextField
+            value={wallpaperLink}
+            onChange={event => setWallpaperLink(event.target.value)}
+            label={wallpaperLinkLabel}
+            variant="outlined"
+          />
+          <TextField
+            value={archiveNumber}
+            onChange={event =>
+              setArchiveNumber(Number.parseInt(event.currentTarget.value, 10))
+            }
+            label={archiveNumberLabel}
+            variant="outlined"
+            type="number"
+          />
+          <TextField
+            value={description}
+            onChange={event => setDescription(event.target.value)}
+            label={descriptionLabel}
+            variant="outlined"
+            multiline
+          />
+          <div className={styles.buttons}>
+            <Button
+              onClick={handleFolderNameClick}
+              variant="contained"
+              startIcon={<FileCopyIcon />}
+            >
+              <TypedMessage id="mainFolderName" />
+            </Button>
+            <Button
+              onClick={handleVideoNameClick}
+              variant="contained"
+              startIcon={<FileCopyIcon />}
+            >
+              <TypedMessage id="mainVideoName" />
+            </Button>
+            <Button
+              onClick={handleArchiveNameClick}
+              variant="contained"
+              startIcon={<FileCopyIcon />}
+            >
+              <TypedMessage id="mainArchiveName" />
+            </Button>
+            <Button
+              onClick={handlePostTextClick}
+              variant="contained"
+              startIcon={<FileCopyIcon />}
+            >
+              <TypedMessage id="mainPostText" />
+            </Button>
+            <Button
+              onClick={handleVideoDescriptionClick}
+              variant="contained"
+              startIcon={<FileCopyIcon />}
+            >
+              <TypedMessage id="mainVideoDescription" />
+            </Button>
+          </div>
+        </div>
+        <div className={styles.secondaryColumn}>
+          <Typography variant="h6">
+            <TypedMessage id="mainHowTo" />
+          </Typography>
+          <Instruction />
+        </div>
       </div>
     </div>
   )

@@ -1,7 +1,26 @@
 .main {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 16px;
   padding: 16px;
+}
+
+.columns {
+  display: flex;
+  gap: 32px;
+}
+
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.secondaryColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-shrink: 0;
 }
 
 .buttons {

@@ -3,6 +3,8 @@
 
 type Main =
   | 'mainHeader'
+  | 'mainPostBundling'
+  | 'mainHowTo'
   | 'mainWallpaperName'
   | 'mainWallpaperLink'
   | 'mainArchiveNumber'
@@ -17,16 +19,26 @@ type Copy =
   | 'copySuccess'
   | 'copyFail'
 
-export type MessageKey = Main | Copy
+type Instruction = 
+  | 'instructionSubscriptions'
+  | 'instructionRecentApproved'
+  | 'instructionMostPopularToday'
+  | 'instructionSubreddit'
+  | 'instructionDiscordChannel'
+  | 'instructionSteamDiscussionsShowcase'
+
+export type MessageKey = Main | Copy | Instruction
 
 type Context<K extends string> = { [Key in K]: string }
 
 export type Messages = {
   main: Context<Main>
   copy: Context<Copy>
+  instruction: Context<Instruction>
 }
 
 export const prepareMessages = (messages: Messages): Record<MessageKey, string> => ({
   ...messages.main,
   ...messages.copy,
+  ...messages.instruction
 })

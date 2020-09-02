@@ -15,7 +15,7 @@ const useCopyToClipboard = () => {
       message = successMessage
     } catch { }
   
-    enqueueSnackbar(message)
+    enqueueSnackbar(message, { autoHideDuration: 1000, variant: 'success' })
   }
   
   return copyToClipboard
