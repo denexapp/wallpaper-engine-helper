@@ -13,7 +13,8 @@ const ruRuMessages: Messages = {
     mainPostText: 'Текст для поста',
     mainVideoDescription: 'Описание видео',
     mainWallpaperLink: 'Ссылка на обои',
-    mainWallpaperName: 'Название обоев'
+    mainWallpaperName: 'Название обоев',
+    mainWallpaperType: 'Тип обоев'
   },
   copy: {
     copyFail: 'Не получилось скопировать :c',
@@ -26,6 +27,12 @@ const ruRuMessages: Messages = {
     instructionSteamDiscussionsShowcase: 'Обсуждение в Steam',
     instructionSubreddit: 'r/wallpaperengine',
     instructionSubscriptions: 'Отслеживаемые авторы'
+  },
+  wallpaperType: {
+    wallpaperTypeApplication: 'Приложение',
+    wallpaperTypeScene: 'Сцена',
+    wallpaperTypeVideo: 'Видео',
+    wallpaperTypeWeb: 'Веб'
   }
 }
 

@@ -1,21 +1,61 @@
-import { TextField, Button, Typography } from '@material-ui/core'
-import React, { useState } from 'react'
-import useTypedMessage from '../../hooks/useTypedMessage'
-import styles from './styles.module.css'
+import {
+  Button,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from '@material-ui/core'
 import FileCopyIcon from '@material-ui/icons/FileCopy'
+import React, { useState } from 'react'
+import Instruction from '../../components/Instruction'
 import TypedMessage from '../../components/TypedMessage'
 import useCopyToClipboard from '../../hooks/useCopyToClipboard'
-import Instruction from '../../components/Instruction'
+import useTypedMessage from '../../hooks/useTypedMessage'
+import { MessageKey } from '../../localization'
+import styles from './styles.module.css'
+
+type WallpaperTypeName = 'scene' | 'web' | 'application' | 'video'
+
+type WallpaperType = {
+  messageId: MessageKey
+  postText: string
+  resolutions: boolean
+}
+
+const wallpaperTypes: { [key in WallpaperTypeName]: WallpaperType } = {
+  application: {
+    messageId: 'wallpaperTypeApplication',
+    postText: 'приложение',
+    resolutions: false,
+  },
+  scene: {
+    messageId: 'wallpaperTypeScene',
+    postText: 'сцена',
+    resolutions: false,
+  },
+  video: {
+    messageId: 'wallpaperTypeVideo',
+    postText: 'видео',
+    resolutions: true,
+  },
+  web: {
+    messageId: 'wallpaperTypeWeb',
+    postText: 'веб',
+    resolutions: false,
+  },
+}
 
 const Main: React.FC = () => {
   const copyToClipboard = useCopyToClipboard()
 
   const wallpaperNameLabel = useTypedMessage({ id: 'mainWallpaperName' })
+  const wallpaperTypeLabel = useTypedMessage({ id: 'mainWallpaperType' })
   const wallpaperLinkLabel = useTypedMessage({ id: 'mainWallpaperLink' })
   const archiveNumberLabel = useTypedMessage({ id: 'mainArchiveNumber' })
   const descriptionLabel = useTypedMessage({ id: 'mainDescription' })
 
   const [wallpaperName, setWallpaperName] = useState('')
+  const [wallpaperType, setWallpaperType] = useState<WallpaperTypeName>('scene')
   const [wallpaperLink, setWallpaperLink] = useState('')
   const [archiveNumber, setArchiveNumber] = useState(0)
   const [description, setDescription] = useState('')
@@ -34,7 +74,7 @@ const Main: React.FC = () => {
 
   const handlePostTextClick = async () => {
     const text = `Рубрика #тема_дня@wp.engine:
-${wallpaperName} (тип темы - сцена)
+${wallpaperName} (тип темы - ${wallpaperTypes[wallpaperType].postText})
 ${description}`
     await copyToClipboard(text)
   }
@@ -68,6 +108,23 @@ ${description}`
             label={wallpaperLinkLabel}
             variant="outlined"
           />
+          <Select
+            value={wallpaperType}
+            onChange={(
+              event: React.ChangeEvent<{ value: WallpaperTypeName }>
+            ) => setWallpaperType(event.target.value)}
+            renderValue={(value: WallpaperTypeName) => (
+              <TypedMessage id={wallpaperTypes[value].messageId} />
+            )}
+            label={wallpaperTypeLabel}
+            variant="outlined"
+          >
+            {Object.entries(wallpaperTypes).map(([type, { messageId }]) => (
+              <MenuItem value={type}>
+                <TypedMessage id={messageId} />
+              </MenuItem>
+            ))}
+          </Select>
           <TextField
             value={archiveNumber}
             onChange={event =>
