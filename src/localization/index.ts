@@ -5,6 +5,7 @@ type Main =
   | 'mainHeader'
   | 'mainPostBundling'
   | 'mainHowTo'
+  | 'mainStepsToPost'
   | 'mainWallpaperName'
   | 'mainWallpaperType'
   | 'mainWallpaperLink'
@@ -28,13 +29,18 @@ type Instruction =
   | 'instructionDiscordChannel'
   | 'instructionSteamDiscussionsShowcase'
 
+type StepsToPost = 
+  | 'stepsToPostVideo'
+  | 'stepsToPostArchive'
+  | 'stepsToPostPost'
+
 type WallpaperType = 
   | 'wallpaperTypeApplication'
   | 'wallpaperTypeScene'
   | 'wallpaperTypeVideo'
   | 'wallpaperTypeWeb'
 
-export type MessageKey = Main | Copy | Instruction | WallpaperType
+export type MessageKey = Main | Copy | Instruction | WallpaperType | StepsToPost
 
 type Context<K extends string> = { [Key in K]: string }
 
@@ -43,11 +49,13 @@ export type Messages = {
   copy: Context<Copy>
   instruction: Context<Instruction>
   wallpaperType: Context<WallpaperType>
+  stepsToPost: Context<StepsToPost>
 }
 
 export const prepareMessages = (messages: Messages): Record<MessageKey, string> => ({
   ...messages.main,
   ...messages.copy,
   ...messages.instruction,
-  ...messages.wallpaperType
+  ...messages.wallpaperType,
+  ...messages.stepsToPost
 })

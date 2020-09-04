@@ -5,6 +5,7 @@ const ruRuMessages: Messages = {
     mainHeader: 'Помощник Wallpaper Engine ВКонтакте',
     mainPostBundling: 'Сборка поста',
     mainHowTo: 'Где искать обои',
+    mainStepsToPost: 'Публикация поста',
     mainArchiveName: 'Имя архива',
     mainArchiveNumber: 'Номер архива',
     mainDescription: 'Описание темы',
@@ -27,6 +28,11 @@ const ruRuMessages: Messages = {
     instructionSteamDiscussionsShowcase: 'Обсуждение в Steam',
     instructionSubreddit: 'r/wallpaperengine',
     instructionSubscriptions: 'Отслеживаемые авторы'
+  },
+  stepsToPost: {
+    stepsToPostArchive: 'Загрузить архив',
+    stepsToPostPost: 'Опубликовать запись',
+    stepsToPostVideo: 'Добавить видео',
   },
   wallpaperType: {
     wallpaperTypeApplication: 'Приложение',

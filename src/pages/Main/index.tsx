@@ -13,6 +13,7 @@ import useCopyToClipboard from '../../hooks/useCopyToClipboard'
 import useTypedMessage from '../../hooks/useTypedMessage'
 import { MessageKey } from '../../localization'
 import styles from './styles.module.css'
+import PlacesToPost from '../../components/PlacesToPost'
 
 type WallpaperTypeName = 'scene' | 'web' | 'application' | 'video'
 
@@ -184,6 +185,10 @@ ${description}`
             <TypedMessage id="mainHowTo" />
           </Typography>
           <Instruction />
+          <Typography variant="h6">
+            <TypedMessage id="mainStepsToPost" />
+          </Typography>
+          <PlacesToPost />
         </div>
       </div>
     </div>
