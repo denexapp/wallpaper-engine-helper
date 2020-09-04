@@ -158,6 +158,13 @@ ${description}`
               <TypedMessage id="mainVideoName" />
             </Button>
             <Button
+              onClick={handleVideoDescriptionClick}
+              variant="contained"
+              startIcon={<FileCopyIcon />}
+            >
+              <TypedMessage id="mainVideoDescription" />
+            </Button>
+            <Button
               onClick={handleArchiveNameClick}
               variant="contained"
               startIcon={<FileCopyIcon />}
@@ -170,13 +177,6 @@ ${description}`
               startIcon={<FileCopyIcon />}
             >
               <TypedMessage id="mainPostText" />
-            </Button>
-            <Button
-              onClick={handleVideoDescriptionClick}
-              variant="contained"
-              startIcon={<FileCopyIcon />}
-            >
-              <TypedMessage id="mainVideoDescription" />
             </Button>
           </div>
         </div>
