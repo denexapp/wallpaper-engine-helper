@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core'
+import { Typography, Link } from '@material-ui/core'
 import React from 'react'
 import TypedMessage from '../../components/TypedMessage'
 import styles from './styles.module.css'
@@ -22,9 +22,11 @@ const Instruction: React.FC = () => {
         </Typography>
       </li>
       <li>
-        <Typography variant="body1">
-          <TypedMessage id="instructionSubreddit" />
-        </Typography>
+        <Link href="https://www.reddit.com/r/wallpaperengine/" target="_blank">
+          <Typography variant="body1">
+            <TypedMessage id="instructionSubreddit" />
+          </Typography>
+        </Link>
       </li>
       <li>
         <Typography variant="body1">
@@ -32,9 +34,11 @@ const Instruction: React.FC = () => {
         </Typography>
       </li>
       <li>
-        <Typography variant="body1">
-          <TypedMessage id="instructionSteamDiscussionsShowcase" />
-        </Typography>
+        <Link href="https://steamcommunity.com/app/431960/discussions/9/" target="_blank">
+          <Typography variant="body1">
+            <TypedMessage id="instructionSteamDiscussionsShowcase" />
+          </Typography>
+        </Link>
       </li>
     </ul>
   )
