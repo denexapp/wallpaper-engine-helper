@@ -4,7 +4,7 @@ const ruRuMessages: Messages = {
   main: {
     mainHeader: 'Помощник Wallpaper Engine ВКонтакте',
     mainPostBundling: 'Сборка поста',
-    mainHowTo: 'Где искать обои',
+    mainHowTo: 'Где искать темы',
     mainStepsToPost: 'Публикация поста',
     mainArchiveName: 'Имя архива',
     mainArchiveNumber: 'Номер архива',
