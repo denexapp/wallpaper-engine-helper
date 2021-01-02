@@ -66,7 +66,7 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
-const server = 'https://wallpaper-engine-vk-helper.vercel.app/'
+const server = 'https://wallpaper-engine-vk-helper.vercel.app'
 const url = `${server}/update/${process.platform}/${app.getVersion()}`
 
 autoUpdater.setFeedURL({ url })
