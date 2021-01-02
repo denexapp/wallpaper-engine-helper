@@ -32,13 +32,20 @@ const ruRuMessages: Messages = {
   stepsToPost: {
     stepsToPostArchive: 'Загрузить архив',
     stepsToPostPost: 'Опубликовать запись',
-    stepsToPostVideo: 'Добавить видео',
+    stepsToPostVideo: 'Добавить видео'
   },
   wallpaperType: {
     wallpaperTypeApplication: 'Приложение',
     wallpaperTypeScene: 'Сцена',
     wallpaperTypeVideo: 'Видео',
     wallpaperTypeWeb: 'Веб'
+  },
+  update: {
+    updateButtonLater: 'Позже',
+    updateButtonRestart: 'Перезапустить',
+    updateMessage:
+      'Новая версия уже загружена. Перезапустите приложение, чтобы установить',
+    updateTitle: 'Доступна новая версия'
   }
 }
 

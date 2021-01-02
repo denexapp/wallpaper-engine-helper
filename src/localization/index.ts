@@ -17,11 +17,9 @@ type Main =
   | 'mainVideoDescription'
   | 'mainArchiveName'
 
-type Copy = 
-  | 'copySuccess'
-  | 'copyFail'
+type Copy = 'copySuccess' | 'copyFail'
 
-type Instruction = 
+type Instruction =
   | 'instructionSubscriptions'
   | 'instructionRecentApproved'
   | 'instructionMostPopularToday'
@@ -29,18 +27,27 @@ type Instruction =
   | 'instructionDiscordChannel'
   | 'instructionSteamDiscussionsShowcase'
 
-type StepsToPost = 
-  | 'stepsToPostVideo'
-  | 'stepsToPostArchive'
-  | 'stepsToPostPost'
+type StepsToPost = 'stepsToPostVideo' | 'stepsToPostArchive' | 'stepsToPostPost'
 
-type WallpaperType = 
+type WallpaperType =
   | 'wallpaperTypeApplication'
   | 'wallpaperTypeScene'
   | 'wallpaperTypeVideo'
   | 'wallpaperTypeWeb'
 
-export type MessageKey = Main | Copy | Instruction | WallpaperType | StepsToPost
+type Update =
+  | 'updateTitle'
+  | 'updateMessage'
+  | 'updateButtonRestart'
+  | 'updateButtonLater'
+
+export type MessageKey =
+  | Main
+  | Copy
+  | Instruction
+  | WallpaperType
+  | StepsToPost
+  | Update
 
 type Context<K extends string> = { [Key in K]: string }
 
@@ -50,12 +57,16 @@ export type Messages = {
   instruction: Context<Instruction>
   wallpaperType: Context<WallpaperType>
   stepsToPost: Context<StepsToPost>
+  update: Context<Update>
 }
 
-export const prepareMessages = (messages: Messages): Record<MessageKey, string> => ({
+export const prepareMessages = (
+  messages: Messages
+): Record<MessageKey, string> => ({
   ...messages.main,
   ...messages.copy,
   ...messages.instruction,
   ...messages.wallpaperType,
-  ...messages.stepsToPost
+  ...messages.stepsToPost,
+  ...messages.update
 })
