@@ -3,7 +3,7 @@ import {
   MenuItem,
   Select,
   TextField,
-  Typography,
+  Typography
 } from '@material-ui/core'
 import FileCopyIcon from '@material-ui/icons/FileCopy'
 import React, { useState } from 'react'
@@ -14,6 +14,7 @@ import useTypedMessage from '../../hooks/useTypedMessage'
 import { MessageKey } from '../../localization'
 import styles from './styles.module.css'
 import PlacesToPost from '../../components/PlacesToPost'
+import Version from '../../components/Version'
 
 type WallpaperTypeName = 'scene' | 'web' | 'application' | 'video'
 
@@ -27,23 +28,23 @@ const wallpaperTypes: { [key in WallpaperTypeName]: WallpaperType } = {
   application: {
     messageId: 'wallpaperTypeApplication',
     postText: 'приложение',
-    resolutions: false,
+    resolutions: false
   },
   scene: {
     messageId: 'wallpaperTypeScene',
     postText: 'сцена',
-    resolutions: false,
+    resolutions: false
   },
   video: {
     messageId: 'wallpaperTypeVideo',
     postText: 'видео',
-    resolutions: true,
+    resolutions: true
   },
   web: {
     messageId: 'wallpaperTypeWeb',
     postText: 'веб',
-    resolutions: false,
-  },
+    resolutions: false
+  }
 }
 
 const Main: React.FC = () => {
@@ -111,11 +112,13 @@ ${description}`
           />
           <Select
             value={wallpaperType}
-            onChange={(
-              event: React.ChangeEvent<{ value: WallpaperTypeName }>
-            ) => setWallpaperType(event.target.value)}
-            renderValue={(value: WallpaperTypeName) => (
-              <TypedMessage id={wallpaperTypes[value].messageId} />
+            onChange={event =>
+              setWallpaperType(event.target.value as WallpaperTypeName)
+            }
+            renderValue={value => (
+              <TypedMessage
+                id={wallpaperTypes[value as WallpaperTypeName].messageId}
+              />
             )}
             label={wallpaperTypeLabel}
             variant="outlined"
@@ -189,6 +192,10 @@ ${description}`
             <TypedMessage id="mainStepsToPost" />
           </Typography>
           <PlacesToPost />
+          <Typography variant="h6">
+            <TypedMessage id="mainAbout" />
+          </Typography>
+          <Version />
         </div>
       </div>
     </div>

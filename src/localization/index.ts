@@ -16,6 +16,7 @@ type Main =
   | 'mainVideoName'
   | 'mainVideoDescription'
   | 'mainArchiveName'
+  | 'mainAbout'
 
 type Copy = 'copySuccess' | 'copyFail'
 
@@ -35,11 +36,10 @@ type WallpaperType =
   | 'wallpaperTypeVideo'
   | 'wallpaperTypeWeb'
 
-type Update =
-  | 'updateTitle'
-  | 'updateMessage'
-  | 'updateButtonRestart'
-  | 'updateButtonLater'
+type Version =
+  | 'versionVersion'
+  | 'versionNewVersionDownloaded'
+  | 'versionRestartToUpdate'
 
 export type MessageKey =
   | Main
@@ -47,7 +47,7 @@ export type MessageKey =
   | Instruction
   | WallpaperType
   | StepsToPost
-  | Update
+  | Version
 
 type Context<K extends string> = { [Key in K]: string }
 
@@ -57,7 +57,7 @@ export type Messages = {
   instruction: Context<Instruction>
   wallpaperType: Context<WallpaperType>
   stepsToPost: Context<StepsToPost>
-  update: Context<Update>
+  version: Context<Version>
 }
 
 export const prepareMessages = (
@@ -68,5 +68,5 @@ export const prepareMessages = (
   ...messages.instruction,
   ...messages.wallpaperType,
   ...messages.stepsToPost,
-  ...messages.update
+  ...messages.version
 })

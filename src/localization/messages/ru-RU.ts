@@ -15,7 +15,8 @@ const ruRuMessages: Messages = {
     mainVideoDescription: 'Описание видео',
     mainWallpaperLink: 'Ссылка на обои',
     mainWallpaperName: 'Название обоев',
-    mainWallpaperType: 'Тип обоев'
+    mainWallpaperType: 'Тип обоев',
+    mainAbout: 'О приложении'
   },
   copy: {
     copyFail: 'Не получилось скопировать :c',
@@ -40,12 +41,10 @@ const ruRuMessages: Messages = {
     wallpaperTypeVideo: 'Видео',
     wallpaperTypeWeb: 'Веб'
   },
-  update: {
-    updateButtonLater: 'Позже',
-    updateButtonRestart: 'Перезапустить',
-    updateMessage:
-      'Новая версия уже загружена. Перезапустите приложение, чтобы установить',
-    updateTitle: 'Доступна новая версия'
+  version: {
+    versionNewVersionDownloaded: 'Загружена новая версия {version}. {restart}',
+    versionRestartToUpdate: 'Перезапустить для обновления',
+    versionVersion: 'Версия {version}'
   }
 }
 
