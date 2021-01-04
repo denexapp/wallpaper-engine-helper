@@ -1,3 +1,5 @@
+const webpack = require('webpack')
+
 module.exports = {
   /**
    * This is the main entry point for your application, it's the first file
@@ -6,9 +8,10 @@ module.exports = {
   entry: './src/index.ts',
   // Put your normal webpack config below here
   module: {
-    rules: require('./webpack.rules'),
+    rules: require('./webpack.rules')
   },
+  plugins: [new webpack.EnvironmentPlugin(['vkAppId'])],
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json']
-  },
-};
+  }
+}
