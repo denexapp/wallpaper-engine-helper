@@ -15,6 +15,7 @@ import { MessageKey } from '../../localization'
 import styles from './styles.module.css'
 import PlacesToPost from '../../components/PlacesToPost'
 import Version from '../../components/Version'
+import User from '../../components/User'
 
 type WallpaperTypeName = 'scene' | 'web' | 'application' | 'video'
 
@@ -90,6 +91,7 @@ ${description}`
 
   return (
     <div className={styles.main}>
+      <User />
       <Typography variant="h5">
         <TypedMessage id="mainHeader" />
       </Typography>

@@ -1,5 +1,6 @@
 import { app, BrowserWindow, shell, autoUpdater, ipcMain } from 'electron'
 import electronIsDev from 'electron-is-dev'
+import vkAuthenticate from './mainProccess/vkAuthenticate'
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -79,4 +80,13 @@ ipcMain.on('get-version', event => {
 
 ipcMain.on('restart-to-update', event => {
   autoUpdater.quitAndInstall()
+})
+
+ipcMain.on('vk-authenticate', async event => {
+  try {
+    const { accessToken, userId } = await vkAuthenticate()
+    event.reply('vk-authenticate-success', { accessToken, userId })
+  } catch {
+    event.reply('vk-authenticate-fail')
+  }
 })
