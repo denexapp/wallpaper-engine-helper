@@ -27,9 +27,10 @@ const vkAuthenticate = () => {
   const vkurl = `${VK_AUTHORIZE_URL}?${query}`
 
   const window = new BrowserWindow({
-    height: 500,
-    width: 400,
-    show: false
+    show: false,
+    width: 540,
+    height: 710,
+    webPreferences: { partition: 'vkAuthenticate' }
   })
 
   window.removeMenu()

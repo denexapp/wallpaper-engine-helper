@@ -1,6 +1,7 @@
 import { app, BrowserWindow, shell, autoUpdater, ipcMain } from 'electron'
 import electronIsDev from 'electron-is-dev'
 import vkAuthenticate from './mainProccess/vkAuthenticate'
+import keytar from 'keytar'
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -10,29 +11,31 @@ if (require('electron-squirrel-startup')) {
 }
 
 const createWindow = (): void => {
-  // Create the browser window.
   const mainWindow = new BrowserWindow({
     height: 800,
     width: 800,
+    show: false,
     webPreferences: {
-      nodeIntegration: true
+      // nodeIntegration: true,
+      contextIsolation: true
     }
   })
+
+  mainWindow.removeMenu()
+  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
+
+  if (electronIsDev) {
+    mainWindow.webContents.openDevTools()
+  }
 
   mainWindow.webContents.on('new-window', (event, url) => {
     event.preventDefault()
     shell.openExternal(url)
   })
 
-  mainWindow.removeMenu()
-
-  // and load the index.html of the app.
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
-
-  // Open the DevTools.
-  if (electronIsDev) {
-    mainWindow.webContents.openDevTools()
-  }
+  mainWindow.on('ready-to-show', () => {
+    mainWindow.show()
+  })
 
   autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
     mainWindow.webContents.send('update-available', releaseName)
@@ -83,6 +86,7 @@ ipcMain.on('restart-to-update', event => {
 })
 
 ipcMain.on('vk-authenticate', async event => {
+  const a = await keytar.getPassword('wallpaper-engine-vk-helper', 'vk-access-token')
   try {
     const { accessToken, userId } = await vkAuthenticate()
     event.reply('vk-authenticate-success', { accessToken, userId })
