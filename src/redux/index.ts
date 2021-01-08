@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import vk from './reducers/vk'
+import vkAuth from './reducers/vkAuth'
 
 export const store = configureStore({
   reducer: {
-    vk: vk.reducer
+    vkAuth: vkAuth.reducer
   }
 })
 type State = ReturnType<typeof store.getState>

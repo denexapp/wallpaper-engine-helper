@@ -1,4 +1,4 @@
-import { BrowserWindow, shell } from 'electron'
+import { BrowserWindow, shell, session } from 'electron'
 import environment from './environment'
 
 const VK_AUTHORIZE_URL = 'https://oauth.vk.com/authorize'
@@ -26,6 +26,8 @@ const vkAuthenticate = () => {
 
   const vkurl = `${VK_AUTHORIZE_URL}?${query}`
 
+  const browserSession = session.fromPartition('vkAuthenticate')
+
   const window = new BrowserWindow({
     show: false,
     width: 540,
@@ -47,11 +49,11 @@ const vkAuthenticate = () => {
   window.loadURL(vkurl)
 
   return new Promise<{
-    accessToken: string
-    userId: number
+    accessToken: string | null
   }>((resolve, reject) => {
-    window.on('closed', () => {
-      reject()
+    window.on('closed', async () => {
+      resolve({ accessToken: null })
+      await browserSession.clearStorageData()
     })
 
     window.webContents.on('did-navigate', (event, stringUrl) => {
@@ -69,21 +71,26 @@ const vkAuthenticate = () => {
       const accessToken = params.get('access_token')
       const userIdString = params.get('user_id')
       const responseState = params.get('state')
+      const errorReason = params.get('error_reason')
 
+      if (errorReason === 'user_denied') {
+        // User pressed the cancel button
+        resolve({ accessToken: null })
+      }
+      
       if (
         accessToken === null ||
+        accessToken === undefined ||
         userIdString === null ||
+        userIdString === undefined ||
         responseState !== state
       ) {
-        return reject()
+        reject()
+        window.destroy()
+        return
       }
 
-      const userId = Number.parseInt(userIdString)
-
-      resolve({
-        accessToken,
-        userId
-      })
+      resolve({ accessToken })
 
       window.destroy()
     })

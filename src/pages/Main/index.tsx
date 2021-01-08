@@ -126,7 +126,7 @@ ${description}`
             variant="outlined"
           >
             {Object.entries(wallpaperTypes).map(([type, { messageId }]) => (
-              <MenuItem value={type}>
+              <MenuItem key={type} value={type}>
                 <TypedMessage id={messageId} />
               </MenuItem>
             ))}

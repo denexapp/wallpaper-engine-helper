@@ -6,7 +6,7 @@ import { IntlProvider } from 'react-intl'
 import { Provider } from 'react-redux'
 import { prepareMessages } from './localization'
 import ruRuMessages from './localization/messages/ru-RU'
-import Main from './pages/Main'
+import Pages from './pages'
 import { store } from './redux'
 
 const AppComponent: React.FC = () => (
@@ -15,7 +15,7 @@ const AppComponent: React.FC = () => (
     <Provider store={store}>
       <IntlProvider locale="ru-RU" messages={prepareMessages(ruRuMessages)}>
         <SnackbarProvider>
-          <Main />
+          <Pages />
         </SnackbarProvider>
       </IntlProvider>
     </Provider>

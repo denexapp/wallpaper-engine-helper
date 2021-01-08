@@ -41,6 +41,22 @@ type Version =
   | 'versionNewVersionDownloaded'
   | 'versionRestartToUpdate'
 
+type Pages = 'pagesAuthenticationError'
+
+type User =
+  | 'userSignIn'
+  | 'userSignOut'
+  | 'userSigningIn'
+  | 'userSigningOut'
+  | 'userAuthenticationError'
+  | 'userSigningOutError'
+  | 'userSignedIn'
+  | 'userSignedOut'
+// | 'userLoadingData'
+// | 'userDataError'
+// | 'userDataErrorToast'
+// | 'userDataTryAgain'
+
 export type MessageKey =
   | Main
   | Copy
@@ -48,6 +64,8 @@ export type MessageKey =
   | WallpaperType
   | StepsToPost
   | Version
+  | Pages
+  | User
 
 type Context<K extends string> = { [Key in K]: string }
 
@@ -58,6 +76,8 @@ export type Messages = {
   wallpaperType: Context<WallpaperType>
   stepsToPost: Context<StepsToPost>
   version: Context<Version>
+  pages: Context<Pages>
+  user: Context<User>
 }
 
 export const prepareMessages = (
@@ -68,5 +88,7 @@ export const prepareMessages = (
   ...messages.instruction,
   ...messages.wallpaperType,
   ...messages.stepsToPost,
-  ...messages.version
+  ...messages.version,
+  ...messages.pages,
+  ...messages.user
 })

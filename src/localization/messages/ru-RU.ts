@@ -45,6 +45,23 @@ const ruRuMessages: Messages = {
     versionNewVersionDownloaded: 'Загружена новая версия {version}. {restart}',
     versionRestartToUpdate: 'Перезапустить для обновления',
     versionVersion: 'Версия {version}'
+  },
+  pages: {
+    pagesAuthenticationError: 'Ошибка при входе'
+  },
+  user: {
+    userAuthenticationError: 'Ошибка при входе',
+    // userDataError: 'Ошибка. {tryAgain}',
+    // userDataErrorToast: 'Не получилось загрузить данные о пользователе',
+    // userDataTryAgain: 'Повторить',
+    // userLoadingData: 'Загрузка...',
+    userSignIn: 'Войти',
+    userSignOut: 'Выйти',
+    userSigningIn: 'Входим...',
+    userSigningOut: 'Выходим...',
+    userSigningOutError: 'Ошибка при выходе',
+    userSignedIn: 'Вы вошли',
+    userSignedOut: 'Вы вышли'
   }
 }
 
