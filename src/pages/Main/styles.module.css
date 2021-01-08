@@ -1,3 +1,4 @@
+
 .main {
   display: flex;
   flex-direction: column;
@@ -22,6 +23,12 @@
   gap: 16px;
   width: 200px;
   flex-shrink: 0;
+}
+
+.header {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
 }
 
 .buttons {

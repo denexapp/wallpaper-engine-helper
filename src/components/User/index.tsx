@@ -7,7 +7,6 @@ import useTypedMessage from '../../hooks/useTypedMessage'
 import { useTypedDispatch, useTypedSelector } from '../../redux'
 import { authenticate, signOut } from '../../redux/reducers/vkAuth'
 import TypedMessage from '../TypedMessage'
-import styles from './styles.module.css'
 
 const User: React.FC = () => {
   const vkAuth = useTypedSelector(state => state.vkAuth)
@@ -90,7 +89,7 @@ const User: React.FC = () => {
     )
   }
 
-  return <div className={styles.user}>{content}</div>
+  return <div>{content}</div>
 }
 
 export default User

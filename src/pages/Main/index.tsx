@@ -91,10 +91,12 @@ ${description}`
 
   return (
     <div className={styles.main}>
-      <User />
-      <Typography variant="h5">
-        <TypedMessage id="mainHeader" />
-      </Typography>
+      <div className={styles.header}>
+        <Typography variant="h5">
+          <TypedMessage id="mainHeader" />
+        </Typography>
+        <User />
+      </div>
       <div className={styles.columns}>
         <div className={styles.mainColumn}>
           <Typography variant="h6">
