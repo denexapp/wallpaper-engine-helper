@@ -29,12 +29,17 @@ const Instruction: React.FC = () => {
         </Link>
       </li>
       <li>
-        <Typography variant="body1">
-          <TypedMessage id="instructionDiscordChannel" />
-        </Typography>
+        <Link href="https://discord.gg/zMW2rnSZ4h" target="_blank">
+          <Typography variant="body1">
+            <TypedMessage id="instructionDiscordChannel" />
+          </Typography>
+        </Link>
       </li>
       <li>
-        <Link href="https://steamcommunity.com/app/431960/discussions/9/" target="_blank">
+        <Link
+          href="https://steamcommunity.com/app/431960/discussions/9/"
+          target="_blank"
+        >
           <Typography variant="body1">
             <TypedMessage id="instructionSteamDiscussionsShowcase" />
           </Typography>
