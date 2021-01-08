@@ -1,7 +1,7 @@
 {
   "name": "wallpaper-engine-vk-helper",
   "productName": "wallpaper-engine-vk-helper",
-  "version": "1.1.6",
+  "version": "1.2.0",
   "description": "My Electron application description",
   "main": ".webpack/main",
   "scripts": {
