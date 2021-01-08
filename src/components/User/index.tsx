@@ -19,7 +19,7 @@ const User: React.FC = () => {
 
   const handleSignInButtonClick = async () => {
     const result = await dispatch(authenticate())
-    if (authenticate.fulfilled.match(result) && result.payload.accessToken !== null) {
+    if (authenticate.fulfilled.match(result) && result.payload.completed) {
       enqueueSnackbar(signInSuccessMessage, {
         autoHideDuration: 3000,
         variant: 'success'

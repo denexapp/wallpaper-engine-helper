@@ -7,7 +7,6 @@ const ruRuMessages: Messages = {
     mainHowTo: 'Где искать темы',
     mainStepsToPost: 'Публикация поста',
     mainArchiveName: 'Имя архива',
-    mainArchiveNumber: 'Номер архива',
     mainDescription: 'Описание темы',
     mainFolderName: 'Имя папки',
     mainVideoName: 'Имя видео',
@@ -62,6 +61,11 @@ const ruRuMessages: Messages = {
     userSigningOutError: 'Ошибка при выходе',
     userSignedIn: 'Вы вошли',
     userSignedOut: 'Вы вышли'
+  },
+  documents: {
+    documentsRequestError: 'Не получилось загрузить номер документа',
+    documentsRequestSuccess: 'Номер документа загружен',
+    documentsArchiveNumberLabel: 'Номер архива'
   }
 }
 

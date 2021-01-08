@@ -1,10 +1,13 @@
-import { BrowserWindow, shell, session } from 'electron'
+import { BrowserWindow, ipcMain, session, shell } from 'electron'
+import keytar from 'keytar'
+import VK from 'vk-ts'
 import environment from './environment'
+import state from './state'
 
 const VK_AUTHORIZE_URL = 'https://oauth.vk.com/authorize'
 const VK_REDIRECT_URL = 'https://oauth.vk.com/blank.html'
 
-const vkAuthenticate = () => {
+const authenticate = () => {
   const state = Math.floor(Math.random() * 10000).toString(10)
 
   const query = new URLSearchParams(
@@ -77,7 +80,7 @@ const vkAuthenticate = () => {
         // User pressed the cancel button
         resolve({ accessToken: null })
       }
-      
+
       if (
         accessToken === null ||
         accessToken === undefined ||
@@ -94,6 +97,62 @@ const vkAuthenticate = () => {
 
       window.destroy()
     })
+  })
+}
+
+const vkAuthenticate = () => {
+  ipcMain.on('vk-authenticate', async event => {
+    try {
+      let accessToken = await keytar.getPassword(
+        'wallpaper-engine-vk-helper',
+        'vk-access-token'
+      )
+      if (accessToken === null) {
+        accessToken = (await authenticate()).accessToken
+        if (accessToken !== null) {
+          await keytar.setPassword(
+            'wallpaper-engine-vk-helper',
+            'vk-access-token',
+            accessToken
+          )
+        }
+      }
+      state.accessToken = accessToken
+      state.vk = accessToken === null ? null : new VK(accessToken)
+      event.reply('vk-authenticate-success', {
+        completed: accessToken !== null
+      })
+    } catch {
+      event.reply('vk-authenticate-fail')
+    }
+  })
+
+  ipcMain.on('vk-get-token', async event => {
+    try {
+      const accessToken = await keytar.getPassword(
+        'wallpaper-engine-vk-helper',
+        'vk-access-token'
+      )
+      state.accessToken = accessToken
+      state.vk = accessToken === null ? null : new VK(accessToken)
+      event.reply('vk-get-token-success', { completed: accessToken !== null })
+    } catch {
+      event.reply('vk-get-token-fail')
+    }
+  })
+
+  ipcMain.on('vk-sign-out', async event => {
+    try {
+      await keytar.deletePassword(
+        'wallpaper-engine-vk-helper',
+        'vk-access-token'
+      )
+      state.accessToken = null
+      state.vk = null
+      event.reply('vk-sign-out-success')
+    } catch {
+      event.reply('vk-sign-out-fail')
+    }
   })
 }
 

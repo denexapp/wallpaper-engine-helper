@@ -16,6 +16,7 @@ import styles from './styles.module.css'
 import PlacesToPost from '../../components/PlacesToPost'
 import Version from '../../components/Version'
 import User from '../../components/User'
+import Documents from '../../components/Documents'
 
 type WallpaperTypeName = 'scene' | 'web' | 'application' | 'video'
 
@@ -54,7 +55,6 @@ const Main: React.FC = () => {
   const wallpaperNameLabel = useTypedMessage({ id: 'mainWallpaperName' })
   const wallpaperTypeLabel = useTypedMessage({ id: 'mainWallpaperType' })
   const wallpaperLinkLabel = useTypedMessage({ id: 'mainWallpaperLink' })
-  const archiveNumberLabel = useTypedMessage({ id: 'mainArchiveNumber' })
   const descriptionLabel = useTypedMessage({ id: 'mainDescription' })
 
   const [wallpaperName, setWallpaperName] = useState('')
@@ -133,14 +133,9 @@ ${description}`
               </MenuItem>
             ))}
           </Select>
-          <TextField
+          <Documents
             value={archiveNumber}
-            onChange={event =>
-              setArchiveNumber(Number.parseInt(event.currentTarget.value, 10))
-            }
-            label={archiveNumberLabel}
-            variant="outlined"
-            type="number"
+            onChange={value => setArchiveNumber(value)}
           />
           <TextField
             value={description}

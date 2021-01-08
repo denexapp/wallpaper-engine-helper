@@ -1,8 +1,7 @@
-import { app, BrowserWindow, shell, autoUpdater, ipcMain } from 'electron'
+import { app, autoUpdater, BrowserWindow, ipcMain, shell } from 'electron'
 import electronIsDev from 'electron-is-dev'
 import vkAuthenticate from './mainProccess/vkAuthenticate'
-import keytar from 'keytar'
-import vkAuth from './redux/reducers/vkAuth'
+import vkNextArchiveNumber from './mainProccess/vkNextArchiveNumber'
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -86,45 +85,5 @@ ipcMain.on('restart-to-update', event => {
   autoUpdater.quitAndInstall()
 })
 
-ipcMain.on('vk-authenticate', async event => {
-  try {
-    let accessToken = await keytar.getPassword(
-      'wallpaper-engine-vk-helper',
-      'vk-access-token'
-    )
-    if (accessToken === null) {
-      accessToken = (await vkAuthenticate()).accessToken
-      if (accessToken !== null) {
-        await keytar.setPassword(
-          'wallpaper-engine-vk-helper',
-          'vk-access-token',
-          accessToken
-        )
-      }
-    }
-    event.reply('vk-authenticate-success', { accessToken })
-  } catch {
-    event.reply('vk-authenticate-fail')
-  }
-})
-
-ipcMain.on('vk-get-token', async event => {
-  try {
-    const accessToken = await keytar.getPassword(
-      'wallpaper-engine-vk-helper',
-      'vk-access-token'
-    )
-    event.reply('vk-get-token-success', { accessToken })
-  } catch {
-    event.reply('vk-get-token-fail')
-  }
-})
-
-ipcMain.on('vk-sign-out', async event => {
-  try {
-    await keytar.deletePassword('wallpaper-engine-vk-helper', 'vk-access-token')
-    event.reply('vk-sign-out-success')
-  } catch {
-    event.reply('vk-sign-out-fail')
-  }
-})
+vkAuthenticate()
+vkNextArchiveNumber()

@@ -9,7 +9,6 @@ type Main =
   | 'mainWallpaperName'
   | 'mainWallpaperType'
   | 'mainWallpaperLink'
-  | 'mainArchiveNumber'
   | 'mainDescription'
   | 'mainPostText'
   | 'mainFolderName'
@@ -57,6 +56,12 @@ type User =
 // | 'userDataErrorToast'
 // | 'userDataTryAgain'
 
+  
+type Documents =
+  | 'documentsRequestError'
+  | 'documentsRequestSuccess'
+  | 'documentsArchiveNumberLabel'
+
 export type MessageKey =
   | Main
   | Copy
@@ -66,6 +71,7 @@ export type MessageKey =
   | Version
   | Pages
   | User
+  | Documents
 
 type Context<K extends string> = { [Key in K]: string }
 
@@ -78,6 +84,7 @@ export type Messages = {
   version: Context<Version>
   pages: Context<Pages>
   user: Context<User>
+  documents: Context<Documents>
 }
 
 export const prepareMessages = (
@@ -90,5 +97,6 @@ export const prepareMessages = (
   ...messages.stepsToPost,
   ...messages.version,
   ...messages.pages,
-  ...messages.user
+  ...messages.user,
+  ...messages.documents
 })
