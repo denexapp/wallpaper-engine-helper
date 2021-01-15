@@ -1,31 +1,29 @@
-import { useSnackbar } from 'notistack'
-import React, { useEffect } from 'react'
-import useTypedMessage from '../hooks/useTypedMessage'
-import { useTypedDispatch } from '../redux'
-import { authenticateBySavedToken } from '../redux/reducers/vkAuth'
+import React, { useCallback, useEffect, useState } from 'react'
+import Display from '../components/Display'
+import useAuthentication from '../hooks/useAuthentication'
+import useGetSettings from '../hooks/useGetSettings'
 import Main from './Main'
+import Settings from './Settings'
 
 const Pages: React.FC = () => {
-  const dispatch = useTypedDispatch()
-  const { enqueueSnackbar } = useSnackbar()
-  const errorMessage = useTypedMessage({ id: 'pagesAuthenticationError' })
+  useAuthentication()
 
-  useEffect(() => {
-    const promise = dispatch(authenticateBySavedToken())
-    promise.then(result => {
-      if (result.meta.requestStatus === 'rejected' && !result.meta.aborted) {
-        enqueueSnackbar(errorMessage, {
-          autoHideDuration: 3000,
-          variant: 'error'
-        })
-      }
-    })
-    return () => {
-      promise.abort()
-    }
-  }, [])
+  const getSettings = useGetSettings(true)
+  useEffect(getSettings, [])
 
-  return <Main />
+  const [showSettings, setShowSettings] = useState(false)
+  const onShowSettings = useCallback(() => setShowSettings(true), [])
+  const onCloseSettings = useCallback(() => setShowSettings(false), [])
+  const settings = showSettings ? <Settings onClose={onCloseSettings} /> : null
+
+  return (
+    <>
+      <Display hide={showSettings}>
+        <Main onShowSettings={onShowSettings} />
+      </Display>
+      {settings}
+    </>
+  )
 }
 
 export default Pages

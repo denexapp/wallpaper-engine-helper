@@ -1,0 +1,13 @@
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+}

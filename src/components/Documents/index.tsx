@@ -44,7 +44,7 @@ const Documents: React.FC<DocumentsProps> = props => {
       if (nextArchiveNumber.fulfilled.match(result)) {
         onChange(result.payload.nextArchiveNumber)
         enqueueSnackbar(requestSuccessMessage, {
-          autoHideDuration: 3000,
+          autoHideDuration: 1000,
           variant: 'success'
         })
       }
@@ -74,7 +74,6 @@ const Documents: React.FC<DocumentsProps> = props => {
           <InputAdornment position="end">
             <IconButton
               disabled={!signedIn}
-              aria-label="toggle password visibility"
               onClick={signedIn ? makeRequest : undefined}
               edge="end"
             >

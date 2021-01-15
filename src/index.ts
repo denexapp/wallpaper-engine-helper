@@ -1,5 +1,7 @@
 import { app, autoUpdater, BrowserWindow, ipcMain, shell } from 'electron'
 import electronIsDev from 'electron-is-dev'
+import settings from './mainProccess/settings'
+import state from './mainProccess/state'
 import vkAuthenticate from './mainProccess/vkAuthenticate'
 import vkNextArchiveNumber from './mainProccess/vkNextArchiveNumber'
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any
@@ -31,10 +33,6 @@ const createWindow = (): void => {
   mainWindow.webContents.on('new-window', (event, url) => {
     event.preventDefault()
     shell.openExternal(url)
-  })
-
-  mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
   })
 
   autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
@@ -81,9 +79,10 @@ ipcMain.on('get-version', event => {
   event.reply('get-version', app.getVersion())
 })
 
-ipcMain.on('restart-to-update', event => {
+ipcMain.on('restart-to-update', () => {
   autoUpdater.quitAndInstall()
 })
 
 vkAuthenticate()
 vkNextArchiveNumber()
+settings()

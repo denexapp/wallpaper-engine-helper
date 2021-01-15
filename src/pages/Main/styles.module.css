@@ -29,6 +29,7 @@
   display: flex;
   gap: 16px;
   justify-content: space-between;
+  align-items: start;
 }
 
 .buttons {

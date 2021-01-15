@@ -15,7 +15,8 @@ const ruRuMessages: Messages = {
     mainWallpaperLink: 'Ссылка на обои',
     mainWallpaperName: 'Название обоев',
     mainWallpaperType: 'Тип обоев',
-    mainAbout: 'О приложении'
+    mainAbout: 'О приложении',
+    mainSettings: 'Настройки'
   },
   copy: {
     copyFail: 'Не получилось скопировать :c',
@@ -66,6 +67,15 @@ const ruRuMessages: Messages = {
     documentsRequestError: 'Не получилось загрузить номер документа',
     documentsRequestSuccess: 'Номер документа загружен',
     documentsArchiveNumberLabel: 'Номер архива'
+  },
+  settings: {
+    settingsTitle: 'Настройки',
+    settingsClose: 'Закрыть настройки',
+    settingsWallpaperEngineFolderLabel: 'Папка с Wallpaper Engine',
+    settingsWallpaperEngineFolderSelected: 'Папка выбрана',
+    settingsWallpaperEngineFolderSelectionError: 'Не получилось выбрать папку',
+    settingsGettingError: 'Не получилось загрузить настройки',
+    settingsGotten: 'Настройки загружены'
   }
 }
 

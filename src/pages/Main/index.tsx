@@ -6,6 +6,7 @@ import {
   Typography
 } from '@material-ui/core'
 import FileCopyIcon from '@material-ui/icons/FileCopy'
+import SettingsIcon from '@material-ui/icons/Settings'
 import React, { useState } from 'react'
 import Instruction from '../../components/Instruction'
 import TypedMessage from '../../components/TypedMessage'
@@ -17,6 +18,11 @@ import PlacesToPost from '../../components/PlacesToPost'
 import Version from '../../components/Version'
 import User from '../../components/User'
 import Documents from '../../components/Documents'
+import Title from '../../components/Title'
+
+interface MainProps {
+  onShowSettings: () => void
+}
 
 type WallpaperTypeName = 'scene' | 'web' | 'application' | 'video'
 
@@ -49,7 +55,9 @@ const wallpaperTypes: { [key in WallpaperTypeName]: WallpaperType } = {
   }
 }
 
-const Main: React.FC = () => {
+const Main: React.FC<MainProps> = props => {
+  const { onShowSettings } = props
+
   const copyToClipboard = useCopyToClipboard()
 
   const wallpaperNameLabel = useTypedMessage({ id: 'mainWallpaperName' })
@@ -92,9 +100,18 @@ ${description}`
   return (
     <div className={styles.main}>
       <div className={styles.header}>
-        <Typography variant="h5">
+        <Title>
           <TypedMessage id="mainHeader" />
-        </Typography>
+        </Title>
+        <div>
+          <Button
+            onClick={onShowSettings}
+            variant="text"
+            endIcon={<SettingsIcon />}
+          >
+            <TypedMessage id="mainSettings" />
+          </Button>
+        </div>
         <User />
       </div>
       <div className={styles.columns}>

@@ -21,7 +21,7 @@ const User: React.FC = () => {
     const result = await dispatch(authenticate())
     if (authenticate.fulfilled.match(result) && result.payload.completed) {
       enqueueSnackbar(signInSuccessMessage, {
-        autoHideDuration: 3000,
+        autoHideDuration: 1000,
         variant: 'success'
       })
     } else if (
@@ -39,7 +39,7 @@ const User: React.FC = () => {
     const result = await dispatch(signOut())
     if (result.meta.requestStatus === 'fulfilled') {
       enqueueSnackbar(signOutSuccessMessage, {
-        autoHideDuration: 3000,
+        autoHideDuration: 1000,
         variant: 'success'
       })
     } else if (
@@ -59,7 +59,7 @@ const User: React.FC = () => {
     content = (
       <Button
         onClick={handleSignInButtonClick}
-        variant="contained"
+        variant="text"
         endIcon={<LaunchIcon />}
       >
         <TypedMessage id="userSignIn" />
@@ -67,7 +67,7 @@ const User: React.FC = () => {
     )
   } else if (vkAuth.state === 'signingIn') {
     content = (
-      <Button disabled variant="contained" endIcon={<LaunchIcon />}>
+      <Button disabled variant="text" endIcon={<LaunchIcon />}>
         <TypedMessage id="userSigningIn" />
       </Button>
     )
@@ -75,7 +75,7 @@ const User: React.FC = () => {
     content = (
       <Button
         onClick={handleSignOutButtonClick}
-        variant="contained"
+        variant="text"
         endIcon={<ExitToApp />}
       >
         <TypedMessage id="userSignOut" />
@@ -83,7 +83,7 @@ const User: React.FC = () => {
     )
   } else if (vkAuth.state === 'signingOut') {
     content = (
-      <Button disabled variant="contained" endIcon={<ExitToApp />}>
+      <Button disabled variant="text" endIcon={<ExitToApp />}>
         <TypedMessage id="userSigningOut" />
       </Button>
     )
