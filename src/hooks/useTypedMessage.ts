@@ -3,10 +3,10 @@ import { MessageKey } from '../localization'
 
 type ExtractOverloadThatReturnsString<Function extends (...args: any) => any> = ReturnType<Function> extends string ? Function : never
 
-type Desciptor = MessageDescriptor & { id: MessageKey }
-type Values = Parameters<ExtractOverloadThatReturnsString<IntlFormatters['formatMessage']>>[1]
+export type TypedMessageDesciptor = MessageDescriptor & { id: MessageKey }
+export type TypedMessageValues = Parameters<ExtractOverloadThatReturnsString<IntlFormatters['formatMessage']>>[1]
 
-const useTypedMessage = (descriptor: Desciptor, values?: Values): string => {
+const useTypedMessage = (descriptor: TypedMessageDesciptor, values?: TypedMessageValues): string => {
   const intl = useIntl()
   return intl.formatMessage(descriptor, values)
 }

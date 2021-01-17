@@ -1,9 +1,8 @@
 import { Button } from '@material-ui/core'
-import LaunchIcon from '@material-ui/icons/Launch'
 import ExitToApp from '@material-ui/icons/ExitToApp'
-import { useSnackbar } from 'notistack'
+import LaunchIcon from '@material-ui/icons/Launch'
 import React from 'react'
-import useTypedMessage from '../../hooks/useTypedMessage'
+import usePushToast from '../../hooks/usePushToast'
 import { useTypedDispatch, useTypedSelector } from '../../redux'
 import { authenticate, signOut } from '../../redux/reducers/vkAuth'
 import TypedMessage from '../TypedMessage'
@@ -11,45 +10,29 @@ import TypedMessage from '../TypedMessage'
 const User: React.FC = () => {
   const vkAuth = useTypedSelector(state => state.vkAuth)
   const dispatch = useTypedDispatch()
-  const { enqueueSnackbar } = useSnackbar()
-  const signInSuccessMessage = useTypedMessage({ id: 'userSignedIn' })
-  const signOutSuccessMessage = useTypedMessage({ id: 'userSignedOut' })
-  const signInErrorMessage = useTypedMessage({ id: 'userAuthenticationError' })
-  const signOutErrorMessage = useTypedMessage({ id: 'userSigningOutError' })
+  const pushToast = usePushToast()
 
   const handleSignInButtonClick = async () => {
     const result = await dispatch(authenticate())
     if (authenticate.fulfilled.match(result) && result.payload.completed) {
-      enqueueSnackbar(signInSuccessMessage, {
-        autoHideDuration: 1000,
-        variant: 'success'
-      })
+      pushToast('userSignedIn', 'success')
     } else if (
       result.meta.requestStatus === 'rejected' &&
       !result.meta.aborted
     ) {
-      enqueueSnackbar(signInErrorMessage, {
-        autoHideDuration: 3000,
-        variant: 'error'
-      })
+      pushToast('userAuthenticationError', 'error')
     }
   }
 
   const handleSignOutButtonClick = async () => {
     const result = await dispatch(signOut())
     if (result.meta.requestStatus === 'fulfilled') {
-      enqueueSnackbar(signOutSuccessMessage, {
-        autoHideDuration: 1000,
-        variant: 'success'
-      })
+      pushToast('userSignedOut', 'success')
     } else if (
       result.meta.requestStatus === 'rejected' &&
       !result.meta.aborted
     ) {
-      enqueueSnackbar(signOutErrorMessage, {
-        autoHideDuration: 3000,
-        variant: 'error'
-      })
+      pushToast('userSigningOutError', 'error')
     }
   }
 

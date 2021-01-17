@@ -1,13 +1,11 @@
-import { useSnackbar } from 'notistack'
 import { useEffect } from 'react'
-import useTypedMessage from '../hooks/useTypedMessage'
 import { useTypedDispatch } from '../redux'
 import { authenticateBySavedToken } from '../redux/reducers/vkAuth'
+import usePushToast from './usePushToast'
 
 const useAuthentication = (): void => {
   const dispatch = useTypedDispatch()
-  const { enqueueSnackbar } = useSnackbar()
-  const errorMessage = useTypedMessage({ id: 'pagesAuthenticationError' })
+  const pushToast = usePushToast()
 
   useEffect(() => {
     const promise = dispatch(authenticateBySavedToken())
@@ -16,10 +14,7 @@ const useAuthentication = (): void => {
         authenticateBySavedToken.rejected.match(result) &&
         !result.meta.aborted
       ) {
-        enqueueSnackbar(errorMessage, {
-          autoHideDuration: 3000,
-          variant: 'error'
-        })
+        pushToast('pagesAuthenticationError', 'error')
       }
     })
     return () => {

@@ -1,58 +1,24 @@
-import {
-  Button,
-  MenuItem,
-  Select,
-  TextField,
-  Typography
-} from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import FileCopyIcon from '@material-ui/icons/FileCopy'
 import SettingsIcon from '@material-ui/icons/Settings'
 import React, { useState } from 'react'
 import Instruction from '../../components/Instruction'
+import PlacesToPost from '../../components/PlacesToPost'
+import Post from '../../components/Post'
+import Subheader from '../../components/Subheader'
+import Title from '../../components/Title'
 import TypedMessage from '../../components/TypedMessage'
+import User from '../../components/User'
+import Version from '../../components/Version'
+import WallpaperInfo from '../../components/WallpaperInfo'
 import useCopyToClipboard from '../../hooks/useCopyToClipboard'
 import useTypedMessage from '../../hooks/useTypedMessage'
-import { MessageKey } from '../../localization'
+import { useTypedSelector } from '../../redux'
+import { wallpaperTypeDescriptions } from '../../utils/wallpaperTypes'
 import styles from './styles.module.css'
-import PlacesToPost from '../../components/PlacesToPost'
-import Version from '../../components/Version'
-import User from '../../components/User'
-import Documents from '../../components/Documents'
-import Title from '../../components/Title'
 
 interface MainProps {
   onShowSettings: () => void
-}
-
-type WallpaperTypeName = 'scene' | 'web' | 'application' | 'video'
-
-type WallpaperType = {
-  messageId: MessageKey
-  postText: string
-  resolutions: boolean
-}
-
-const wallpaperTypes: { [key in WallpaperTypeName]: WallpaperType } = {
-  application: {
-    messageId: 'wallpaperTypeApplication',
-    postText: 'приложение',
-    resolutions: false
-  },
-  scene: {
-    messageId: 'wallpaperTypeScene',
-    postText: 'сцена',
-    resolutions: false
-  },
-  video: {
-    messageId: 'wallpaperTypeVideo',
-    postText: 'видео',
-    resolutions: true
-  },
-  web: {
-    messageId: 'wallpaperTypeWeb',
-    postText: 'веб',
-    resolutions: false
-  }
 }
 
 const Main: React.FC<MainProps> = props => {
@@ -60,38 +26,33 @@ const Main: React.FC<MainProps> = props => {
 
   const copyToClipboard = useCopyToClipboard()
 
-  const wallpaperNameLabel = useTypedMessage({ id: 'mainWallpaperName' })
-  const wallpaperTypeLabel = useTypedMessage({ id: 'mainWallpaperType' })
-  const wallpaperLinkLabel = useTypedMessage({ id: 'mainWallpaperLink' })
-  const descriptionLabel = useTypedMessage({ id: 'mainDescription' })
-
-  const [wallpaperName, setWallpaperName] = useState('')
-  const [wallpaperType, setWallpaperType] = useState<WallpaperTypeName>('scene')
-  const [wallpaperLink, setWallpaperLink] = useState('')
-  const [archiveNumber, setArchiveNumber] = useState(0)
-  const [description, setDescription] = useState('')
+  const link = useTypedSelector(state => state.wallpaperInfo.link)
+  const name = useTypedSelector(state => state.wallpaperInfo.name)
+  const type = useTypedSelector(state => state.wallpaperInfo.type)
+  const archiveNumber = useTypedSelector(state => state.documents.archiveNumber)
+  const description = useTypedSelector(state => state.post.description)
 
   const handleFolderNameClick = async () => {
-    await copyToClipboard(wallpaperName)
+    await copyToClipboard(name)
   }
 
   const handleVideoNameClick = async () => {
-    await copyToClipboard(wallpaperName)
+    await copyToClipboard(name)
   }
 
   const handleArchiveNameClick = async () => {
-    await copyToClipboard(`${archiveNumber} - ${wallpaperName}`)
+    await copyToClipboard(`${archiveNumber} - ${name}`)
   }
 
   const handlePostTextClick = async () => {
     const text = `Рубрика #тема_дня@wp.engine:
-${wallpaperName} (тип темы - ${wallpaperTypes[wallpaperType].postText})
+${name} (тип темы - ${wallpaperTypeDescriptions[type].postText})
 ${description}`
     await copyToClipboard(text)
   }
 
   const handleVideoDescriptionClick = async () => {
-    const text = `Мастерская Steam: ${wallpaperLink}
+    const text = `Мастерская Steam: ${link}
 Скачать архив здесь: 
 Сообщество ВКонтакте: https://vk.com/wp.engine`
     await copyToClipboard(text)
@@ -116,51 +77,8 @@ ${description}`
       </div>
       <div className={styles.columns}>
         <div className={styles.mainColumn}>
-          <Typography variant="h6">
-            <TypedMessage id="mainPostBundling" />
-          </Typography>
-          <TextField
-            value={wallpaperName}
-            onChange={event => setWallpaperName(event.target.value)}
-            label={wallpaperNameLabel}
-            variant="outlined"
-          />
-          <TextField
-            value={wallpaperLink}
-            onChange={event => setWallpaperLink(event.target.value)}
-            label={wallpaperLinkLabel}
-            variant="outlined"
-          />
-          <Select
-            value={wallpaperType}
-            onChange={event =>
-              setWallpaperType(event.target.value as WallpaperTypeName)
-            }
-            renderValue={value => (
-              <TypedMessage
-                id={wallpaperTypes[value as WallpaperTypeName].messageId}
-              />
-            )}
-            label={wallpaperTypeLabel}
-            variant="outlined"
-          >
-            {Object.entries(wallpaperTypes).map(([type, { messageId }]) => (
-              <MenuItem key={type} value={type}>
-                <TypedMessage id={messageId} />
-              </MenuItem>
-            ))}
-          </Select>
-          <Documents
-            value={archiveNumber}
-            onChange={value => setArchiveNumber(value)}
-          />
-          <TextField
-            value={description}
-            onChange={event => setDescription(event.target.value)}
-            label={descriptionLabel}
-            variant="outlined"
-            multiline
-          />
+          <WallpaperInfo />
+          <Post />
           <div className={styles.buttons}>
             <Button
               onClick={handleFolderNameClick}
@@ -200,17 +118,17 @@ ${description}`
           </div>
         </div>
         <div className={styles.secondaryColumn}>
-          <Typography variant="h6">
+          <Subheader>
             <TypedMessage id="mainHowTo" />
-          </Typography>
+          </Subheader>
           <Instruction />
-          <Typography variant="h6">
+          <Subheader>
             <TypedMessage id="mainStepsToPost" />
-          </Typography>
+          </Subheader>
           <PlacesToPost />
-          <Typography variant="h6">
+          <Subheader>
             <TypedMessage id="mainAbout" />
-          </Typography>
+          </Subheader>
           <Version />
         </div>
       </div>

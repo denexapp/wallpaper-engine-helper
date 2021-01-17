@@ -5,11 +5,11 @@ import {
   TextField
 } from '@material-ui/core'
 import FolderIcon from '@material-ui/icons/Folder'
-import { useSnackbar } from 'notistack'
 import React, { useEffect } from 'react'
 import Title from '../../components/Title'
 import TypedMessage from '../../components/TypedMessage'
 import useGetSettings from '../../hooks/useGetSettings'
+import usePushToast from '../../hooks/usePushToast'
 import useTypedMessage from '../../hooks/useTypedMessage'
 import { useTypedDispatch, useTypedSelector } from '../../redux'
 import { settingsWallpaperEngineFolder } from '../../redux/reducers/settings'
@@ -24,18 +24,12 @@ const Settings: React.FC<SettingsProps> = props => {
 
   const getSettings = useGetSettings(false)
   const dispatch = useTypedDispatch()
-  const { enqueueSnackbar } = useSnackbar()
+  const pushToast = usePushToast()
   const wallpaperEngineFolder = useTypedSelector(
     state => state.settings.settings?.wallpaperEngineFolder
   )
   const wallpaperEngineFolderLabel = useTypedMessage({
     id: 'settingsWallpaperEngineFolderLabel'
-  })
-  const wallpaperEngineFolderSelectionError = useTypedMessage({
-    id: 'settingsWallpaperEngineFolderSelectionError'
-  })
-  const wallpaperEngineFolderSelected = useTypedMessage({
-    id: 'settingsWallpaperEngineFolderSelected'
   })
 
   useEffect(getSettings, [])
@@ -46,17 +40,11 @@ const Settings: React.FC<SettingsProps> = props => {
       settingsWallpaperEngineFolder.fulfilled.match(result) &&
       result.payload
     ) {
-      enqueueSnackbar(wallpaperEngineFolderSelected, {
-        variant: 'success',
-        autoHideDuration: 1000
-      })
+      pushToast('settingsWallpaperEngineFolderSelected', 'success')
       getSettings()
     }
     if (settingsWallpaperEngineFolder.rejected.match(result)) {
-      enqueueSnackbar(wallpaperEngineFolderSelectionError, {
-        variant: 'error',
-        autoHideDuration: 3000
-      })
+      pushToast('settingsWallpaperEngineFolderSelectionError', 'error')
     }
   }
 

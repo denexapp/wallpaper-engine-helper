@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { ipcRenderer } from 'electron'
-import { PartialSettings, Settings } from '../../mainProccess/settings'
+import { Settings } from '../../mainProccess/settings'
 
 interface State {
   settings: Settings | null

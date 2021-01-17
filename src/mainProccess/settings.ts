@@ -12,7 +12,7 @@ export interface Settings {
   wallpaperEngineFolder?: string
 }
 
-export type PartialSettings = Partial<Settings>
+// export type PartialSettings = Partial<Settings>
 
 const settingsDecoder = JsonDecoder.object<Settings>(
   {
@@ -21,12 +21,12 @@ const settingsDecoder = JsonDecoder.object<Settings>(
   'settingsDecoder'
 )
 
-const partialSettingsDecoder = JsonDecoder.objectStrict<PartialSettings>(
-  {
-    wallpaperEngineFolder: JsonDecoder.optional(JsonDecoder.string)
-  },
-  'partialSettingsDecoder'
-)
+// const partialSettingsDecoder = JsonDecoder.objectStrict<PartialSettings>(
+//   {
+//     wallpaperEngineFolder: JsonDecoder.optional(JsonDecoder.string)
+//   },
+//   'partialSettingsDecoder'
+// )
 
 const settings = () => {
   ipcMain.on('settings-get', async (event, showErrorDialogOnError: boolean) => {

@@ -3,18 +3,13 @@ import { Messages } from '..'
 const ruRuMessages: Messages = {
   main: {
     mainHeader: 'Помощник Wallpaper Engine ВКонтакте',
-    mainPostBundling: 'Сборка поста',
     mainHowTo: 'Где искать темы',
     mainStepsToPost: 'Публикация поста',
     mainArchiveName: 'Имя архива',
-    mainDescription: 'Описание темы',
     mainFolderName: 'Имя папки',
     mainVideoName: 'Имя видео',
     mainPostText: 'Текст для поста',
     mainVideoDescription: 'Описание видео',
-    mainWallpaperLink: 'Ссылка на обои',
-    mainWallpaperName: 'Название обоев',
-    mainWallpaperType: 'Тип обоев',
     mainAbout: 'О приложении',
     mainSettings: 'Настройки'
   },
@@ -66,7 +61,9 @@ const ruRuMessages: Messages = {
   documents: {
     documentsRequestError: 'Не получилось загрузить номер документа',
     documentsRequestSuccess: 'Номер документа загружен',
-    documentsArchiveNumberLabel: 'Номер архива'
+    documentsArchiveNumberLabel: 'Номер архива',
+    documentsHint:
+      'Войдите в приложение, чтобы загружать номер архива автоматически'
   },
   settings: {
     settingsTitle: 'Настройки',
@@ -76,6 +73,20 @@ const ruRuMessages: Messages = {
     settingsWallpaperEngineFolderSelectionError: 'Не получилось выбрать папку',
     settingsGettingError: 'Не получилось загрузить настройки',
     settingsGotten: 'Настройки загружены'
+  },
+  wallpaperInfo: {
+    wallpaperInfoHeader: 'Информация об обоях',
+    wallpaperInfoLink: 'Ссылка на обои',
+    wallpaperInfoName: 'Название',
+    wallpaperInfoType: 'Тип обоев',
+    wallpaperInfoHint:
+      'Укажите папку с Wallpaper Engine в настройках, чтобы подгружать информацию об обоях автоматически',
+    wallpaperInfoGettingError: 'Не получилось загрузить информацию об обоях',
+    wallpaperInfoGotten: 'Информация об обоях загружена'
+  },
+  post: {
+    postHeader: 'Подготовка поста',
+    postDescriptionLabel: 'Описание темы'
   }
 }
 

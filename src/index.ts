@@ -1,7 +1,8 @@
-import { app, autoUpdater, BrowserWindow, ipcMain, shell } from 'electron'
+import { app, autoUpdater, BrowserWindow, shell } from 'electron'
 import electronIsDev from 'electron-is-dev'
+import autoupdate from './mainProccess/autoupdate'
+import currentWallpaper from './mainProccess/currentWallpaper'
 import settings from './mainProccess/settings'
-import state from './mainProccess/state'
 import vkAuthenticate from './mainProccess/vkAuthenticate'
 import vkNextArchiveNumber from './mainProccess/vkNextArchiveNumber'
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any
@@ -64,25 +65,9 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
-if (!electronIsDev && process.argv[1] !== '--squirrel-firstrun') {
-  const server = 'https://wallpaper.denexapp.me'
-  const url = `${server}/update/${process.platform}/${app.getVersion()}`
 
-  autoUpdater.setFeedURL({ url })
-
-  setInterval(() => {
-    autoUpdater.checkForUpdates()
-  }, 60000)
-}
-
-ipcMain.on('get-version', event => {
-  event.reply('get-version', app.getVersion())
-})
-
-ipcMain.on('restart-to-update', () => {
-  autoUpdater.quitAndInstall()
-})
-
+autoupdate()
 vkAuthenticate()
 vkNextArchiveNumber()
 settings()
+currentWallpaper()

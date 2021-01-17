@@ -3,13 +3,8 @@
 
 type Main =
   | 'mainHeader'
-  | 'mainPostBundling'
   | 'mainHowTo'
   | 'mainStepsToPost'
-  | 'mainWallpaperName'
-  | 'mainWallpaperType'
-  | 'mainWallpaperLink'
-  | 'mainDescription'
   | 'mainPostText'
   | 'mainFolderName'
   | 'mainVideoName'
@@ -61,6 +56,7 @@ type Documents =
   | 'documentsRequestError'
   | 'documentsRequestSuccess'
   | 'documentsArchiveNumberLabel'
+  | 'documentsHint'
 
 type Settings =
   | 'settingsTitle'
@@ -70,6 +66,17 @@ type Settings =
   | 'settingsWallpaperEngineFolderSelectionError'
   | 'settingsGettingError'
   | 'settingsGotten'
+
+type WallpaperInfo =
+  | 'wallpaperInfoHeader'
+  | 'wallpaperInfoName'
+  | 'wallpaperInfoType'
+  | 'wallpaperInfoLink'
+  | 'wallpaperInfoHint'
+  | 'wallpaperInfoGettingError'
+  | 'wallpaperInfoGotten'
+
+type Post = 'postHeader' | 'postDescriptionLabel'
 
 export type MessageKey =
   | Main
@@ -82,6 +89,8 @@ export type MessageKey =
   | User
   | Documents
   | Settings
+  | WallpaperInfo
+  | Post
 
 type Context<K extends string> = { [Key in K]: string }
 
@@ -96,6 +105,8 @@ export type Messages = {
   user: Context<User>
   documents: Context<Documents>
   settings: Context<Settings>
+  wallpaperInfo: Context<WallpaperInfo>
+  post: Context<Post>
 }
 
 export const prepareMessages = (
@@ -110,5 +121,7 @@ export const prepareMessages = (
   ...messages.pages,
   ...messages.user,
   ...messages.documents,
-  ...messages.settings
+  ...messages.settings,
+  ...messages.wallpaperInfo,
+  ...messages.post
 })
