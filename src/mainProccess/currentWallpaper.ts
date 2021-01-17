@@ -25,12 +25,13 @@ const getWallpaperInfo = async (folderPath: string): Promise<WallpaperInfo> => {
   const { lastselectedmonitor } = decodedConfig[username].general.browser
   const { file } = decodedConfig[
     username
-  ].general.wallpaperconfig.selectedwallpaper[lastselectedmonitor]
+  ].general.wallpaperconfig.selectedwallpapers[lastselectedmonitor]
 
-  const projectFolderPath = path.parse(file).dir
+  const projectFolderPath = path.normalize(path.parse(file).dir)
   const projectPath = path.join(projectFolderPath, projectFileName)
   const project = await fs.promises.readFile(projectPath, { encoding: 'utf8' })
-  const decodedProject = await packageDecoder.decodePromise(project)
+  const projectJson = JSON.parse(project)
+  const decodedProject = await packageDecoder.decodePromise(projectJson)
 
   if (
     decodedProject.dependency !== undefined ||
@@ -53,8 +54,7 @@ const getWallpaperInfo = async (folderPath: string): Promise<WallpaperInfo> => {
   }
 
   const url = new URL('https://steamcommunity.com/sharedfiles/filedetails/')
-  const urlSearchParams = new URLSearchParams()
-  urlSearchParams.append('id', workshopId.toString(10))
+  url.searchParams.append('id', workshopId.toString(10))
   const link = url.toString()
 
   const { type } = decodedProject

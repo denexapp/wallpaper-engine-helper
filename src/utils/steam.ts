@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 import { JsonDecoder } from 'ts.data.json'
 
 interface PublishedFileDetails {
-  publishedfileid: number
+  publishedfileid: string
   title: string
 }
 
@@ -15,7 +15,7 @@ interface GetPublishedFileDetailsResponse {
 
 const publishedFileDetailsDecoder = JsonDecoder.object<PublishedFileDetails>(
   {
-    publishedfileid: JsonDecoder.number,
+    publishedfileid: JsonDecoder.string,
     title: JsonDecoder.string
   },
   'PublishedFileDetails'
@@ -51,7 +51,15 @@ export const getPublishedFileDetails = async (
     }
   )
 
-  const json = await response.json()
+  // const text = await response.text()
+  let json: object
+  try {
+    json = await response.json()
+    
+  } catch (error) {
+    console.log(error)
+    throw new Error()
+  }
   const result = await getPublishedFileDetailsResponseDecoder.decodePromise(
     json
   )

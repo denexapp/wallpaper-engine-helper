@@ -12,7 +12,7 @@ interface UserConfig {
       lastselectedmonitor: string
     }
     wallpaperconfig: {
-      selectedwallpaper: {
+      selectedwallpapers: {
         [monitor: string]: SelectedWallpaperConfig
       }
     }
@@ -50,7 +50,7 @@ const userConfigDecoder = JsonDecoder.object<UserConfig>(
         ),
         wallpaperconfig: JsonDecoder.object(
           {
-            selectedwallpaper: JsonDecoder.dictionary(
+            selectedwallpapers: JsonDecoder.dictionary(
               selectedWallpaperConfigDecoder,
               'selectedwallpaper'
             )
@@ -63,9 +63,23 @@ const userConfigDecoder = JsonDecoder.object<UserConfig>(
   },
   'UserConfig'
 )
-export const configDecoder: JsonDecoder.Decoder<Config> = JsonDecoder.dictionary<UserConfig>(
+const configDictionaryDecoder: JsonDecoder.Decoder<Config> = JsonDecoder.dictionary<UserConfig>(
   userConfigDecoder,
   'Config'
+)
+
+export const configDecoder: JsonDecoder.Decoder<Config> = new JsonDecoder.Decoder(
+  (json: unknown) => {
+    const result = JsonDecoder.dictionary<string | UserConfig>(JsonDecoder.oneOf<string | UserConfig>([
+      JsonDecoder.string,
+      userConfigDecoder
+    ], 'configDecoder'), 'configDecoder').decode(json)
+    if (!result.isOk()) {
+      return new Err('value is not an object')
+    }
+    const { _installdirectory: _, ...valueWithoutInstallDirectory } = result.value
+    return configDictionaryDecoder.decode(valueWithoutInstallDirectory)
+  }
 )
 
 const wallpaperTypeDecoder: JsonDecoder.Decoder<WallpaperType> = new JsonDecoder.Decoder(
