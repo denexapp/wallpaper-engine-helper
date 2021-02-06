@@ -1,6 +1,9 @@
 // do prefix keys with context name
 // it helps to keep keys unique across the project
 
+import enUsMessages from './messages/en-US'
+import ruRuMessages from './messages/ru-RU'
+
 type Main =
   | 'mainHeader'
   | 'mainHowTo'
@@ -125,3 +128,12 @@ export const prepareMessages = (
   ...messages.wallpaperInfo,
   ...messages.post
 })
+
+export const locales = {
+  'en-US': enUsMessages,
+  'ru-RU': ruRuMessages
+} as const
+
+export type Locale = keyof typeof locales
+
+export const defaultLocale: Locale = 'en-US'

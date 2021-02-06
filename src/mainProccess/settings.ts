@@ -7,16 +7,23 @@ import {
 } from 'electron'
 import electronSettings from 'electron-settings'
 import { JsonDecoder } from 'ts.data.json'
+import { defaultLocale, Locale } from '../localization'
 
 export interface Settings {
   wallpaperEngineFolder?: string
+  locale: Locale
 }
 
 // export type PartialSettings = Partial<Settings>
 
 const settingsDecoder = JsonDecoder.object<Settings>(
   {
-    wallpaperEngineFolder: JsonDecoder.optional(JsonDecoder.string)
+    wallpaperEngineFolder: JsonDecoder.optional(JsonDecoder.string),
+    // locale: JsonDecoder.failover(defaultLocale, JsonDecoder.oneOf([
+    //   JsonDecoder.isExactly('en-US'),
+    //   JsonDecoder.isExactly('ru-RU'),
+    // ], 'locale'))
+    locale: JsonDecoder.constant('en-US')
   },
   'settingsDecoder'
 )

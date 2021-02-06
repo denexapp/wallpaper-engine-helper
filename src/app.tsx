@@ -4,20 +4,29 @@ import React from 'react'
 import { hot } from 'react-hot-loader'
 import { IntlProvider } from 'react-intl'
 import { Provider } from 'react-redux'
-import { prepareMessages } from './localization'
-import ruRuMessages from './localization/messages/ru-RU'
+import useLocaleMessages from './hooks/useLocaleMessages'
+import { defaultLocale } from './localization'
 import Pages from './pages'
-import { store } from './redux'
+import { store, useTypedSelector } from './redux'
+
+const ConnectedApp: React.FC = () => {
+  const locale = useTypedSelector(state => state.settings.settings?.locale ?? defaultLocale)
+  const messages = useLocaleMessages(locale)
+
+  return (
+    <IntlProvider locale={locale} messages={messages}>
+      <SnackbarProvider>
+        <Pages />
+      </SnackbarProvider>
+    </IntlProvider>
+  )
+}
 
 const AppComponent: React.FC = () => (
   <React.StrictMode>
     <CssBaseline />
     <Provider store={store}>
-      <IntlProvider locale="ru-RU" messages={prepareMessages(ruRuMessages)}>
-        <SnackbarProvider>
-          <Pages />
-        </SnackbarProvider>
-      </IntlProvider>
+      <ConnectedApp />
     </Provider>
   </React.StrictMode>
 )
