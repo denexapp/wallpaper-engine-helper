@@ -68,7 +68,9 @@ const enUsMessages: Messages = {
     settingsWallpaperEngineFolderSelected: 'Folder selected',
     settingsWallpaperEngineFolderSelectionError: 'Can\'t select folder',
     settingsGettingError: 'Can\'t get settings',
-    settingsGotten: 'Settings loaded'
+    settingsGotten: 'Settings loaded',
+    settingsLocaleLabel: 'Language',
+    settingsLocaleSelectionError: 'Can\'t change language'
   },
   wallpaperInfo: {
     wallpaperInfoHeader: 'Wallpaper info',

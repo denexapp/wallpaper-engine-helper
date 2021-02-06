@@ -1,11 +1,11 @@
 import { useMemo } from 'react'
-import { defaultLocale, Locale, locales, prepareMessages } from '../localization'
+import { defaultLocale, LocaleCode, locales, prepareMessages } from '../localization'
 
-const useLocaleMessages = (locale?: Locale) => {
+const useLocaleMessages = (localeCode?: LocaleCode) => {
   const localeMessages = useMemo(() => {
-    const localeMessages = locales[locale ?? defaultLocale]
-    return prepareMessages(localeMessages)
-  }, [locale])
+    const locale = locales[localeCode ?? defaultLocale]
+    return prepareMessages(locale.messages)
+  }, [localeCode])
 
   return localeMessages
 }

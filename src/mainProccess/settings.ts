@@ -7,11 +7,11 @@ import {
 } from 'electron'
 import electronSettings from 'electron-settings'
 import { JsonDecoder } from 'ts.data.json'
-import { defaultLocale, Locale } from '../localization'
+import { defaultLocale, LocaleCode } from '../localization'
 
 export interface Settings {
   wallpaperEngineFolder?: string
-  locale: Locale
+  locale: LocaleCode
 }
 
 // export type PartialSettings = Partial<Settings>
@@ -19,11 +19,10 @@ export interface Settings {
 const settingsDecoder = JsonDecoder.object<Settings>(
   {
     wallpaperEngineFolder: JsonDecoder.optional(JsonDecoder.string),
-    // locale: JsonDecoder.failover(defaultLocale, JsonDecoder.oneOf([
-    //   JsonDecoder.isExactly('en-US'),
-    //   JsonDecoder.isExactly('ru-RU'),
-    // ], 'locale'))
-    locale: JsonDecoder.constant('en-US')
+    locale: JsonDecoder.failover(defaultLocale, JsonDecoder.oneOf([
+      JsonDecoder.isExactly('en-US'),
+      JsonDecoder.isExactly('ru-RU'),
+    ], 'locale'))
   },
   'settingsDecoder'
 )
@@ -91,6 +90,15 @@ const settings = () => {
       }
     } catch {
       event.reply('settings-set-wallpaper-engine-folder-fail')
+    }
+  })
+
+  ipcMain.on('settings-set-locale', async (event, localeCode: LocaleCode) => {
+    try {
+      await electronSettings.set('locale', localeCode)
+      event.reply('settings-set-locale-success', localeCode)
+    } catch {
+      event.reply('settings-set-locale-fail')
     }
   })
 

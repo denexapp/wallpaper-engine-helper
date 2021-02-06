@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { ipcRenderer } from 'electron'
+import { LocaleCode } from '../../localization'
 import { Settings } from '../../mainProccess/settings'
 
 interface State {
@@ -54,6 +55,23 @@ export const settingsWallpaperEngineFolder = createAsyncThunk(
     })
 )
 
+export const settingsLocale = createAsyncThunk(
+  'settings/locale',
+  (localeCode: LocaleCode) =>
+    new Promise<LocaleCode>((resolve, reject) => {
+      ipcRenderer.once(
+        'settings-set-locale-success',
+        (event, localeCode) => {
+          resolve(localeCode)
+        }
+      )
+      ipcRenderer.once('settings-set-locale-fail', () =>
+        reject()
+      )
+      ipcRenderer.send('settings-set-locale', localeCode)
+    })
+)
+
 // export const setSettings = createAsyncThunk(
 //   'settings/setSettings',
 //   (settings: PartialSettings) =>
@@ -69,9 +87,15 @@ const settings = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder =>
-    builder.addCase(getSettings.fulfilled, (state, action) => {
-      state.settings = action.payload
-    })
+    builder
+      .addCase(getSettings.fulfilled, (state, action) => {
+        state.settings = action.payload
+      })
+      .addCase(settingsLocale.fulfilled, (state, action) => {
+        if (state.settings) {
+          state.settings.locale = action.payload
+        }
+      })
 })
 
 export default settings

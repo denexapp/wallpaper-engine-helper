@@ -2,6 +2,7 @@ import {
   Button,
   IconButton,
   InputAdornment,
+  MenuItem,
   TextField
 } from '@material-ui/core'
 import FolderIcon from '@material-ui/icons/Folder'
@@ -11,8 +12,9 @@ import TypedMessage from '../../components/TypedMessage'
 import useGetSettings from '../../hooks/useGetSettings'
 import usePushToast from '../../hooks/usePushToast'
 import useTypedMessage from '../../hooks/useTypedMessage'
+import { LocaleCode, locales } from '../../localization'
 import { useTypedDispatch, useTypedSelector } from '../../redux'
-import { settingsWallpaperEngineFolder } from '../../redux/reducers/settings'
+import { settingsLocale, settingsWallpaperEngineFolder } from '../../redux/reducers/settings'
 import styles from './styles.module.css'
 
 interface SettingsProps {
@@ -25,11 +27,17 @@ const Settings: React.FC<SettingsProps> = props => {
   const getSettings = useGetSettings(false)
   const dispatch = useTypedDispatch()
   const pushToast = usePushToast()
+
   const wallpaperEngineFolder = useTypedSelector(
     state => state.settings.settings?.wallpaperEngineFolder
   )
+  const locale = useTypedSelector(state => state.settings.settings?.locale)
+
   const wallpaperEngineFolderLabel = useTypedMessage({
     id: 'settingsWallpaperEngineFolderLabel'
+  })
+  const localeLabel = useTypedMessage({
+    id: 'settingsLocaleLabel'
   })
 
   useEffect(getSettings, [])
@@ -46,6 +54,16 @@ const Settings: React.FC<SettingsProps> = props => {
     if (settingsWallpaperEngineFolder.rejected.match(result)) {
       pushToast('settingsWallpaperEngineFolderSelectionError', 'error')
     }
+  }
+
+  const handleLocaleChange = (localeCode: LocaleCode) => {
+    const promise = dispatch(settingsLocale(localeCode))
+    promise.then(result => {
+      if (settingsLocale.rejected.match(result) && !result.meta.aborted) {
+        pushToast('settingsLocaleSelectionError', 'error')
+      }
+    })
+    return promise.abort
   }
 
   return (
@@ -73,6 +91,19 @@ const Settings: React.FC<SettingsProps> = props => {
           )
         }}
       />
+      <TextField
+        select
+        value={locale}
+        onChange={event => handleLocaleChange(event.target.value as LocaleCode)}
+        label={localeLabel}
+        variant="outlined"
+      >
+        {Object.entries(locales).map(([localeCode, { name }]) => (
+          <MenuItem key={localeCode} value={localeCode}>
+            {name}
+          </MenuItem>
+        ))}
+      </TextField>
     </div>
   )
 }

@@ -69,6 +69,8 @@ type Settings =
   | 'settingsWallpaperEngineFolderSelectionError'
   | 'settingsGettingError'
   | 'settingsGotten'
+  | 'settingsLocaleLabel'
+  | 'settingsLocaleSelectionError'
 
 type WallpaperInfo =
   | 'wallpaperInfoHeader'
@@ -129,11 +131,18 @@ export const prepareMessages = (
   ...messages.post
 })
 
-export const locales = {
-  'en-US': enUsMessages,
-  'ru-RU': ruRuMessages
+export type LocaleCode = 'en-US' | 'ru-RU'
+
+type Locale = {
+  messages: Messages
+  name: string
+}
+
+export const locales: {
+  [key in LocaleCode]: Locale
+} = {
+  'en-US': { messages: enUsMessages, name: 'English' },
+  'ru-RU': { messages: ruRuMessages, name: 'Русский' }
 } as const
 
-export type Locale = keyof typeof locales
-
-export const defaultLocale: Locale = 'en-US'
+export const defaultLocale: LocaleCode = 'en-US'

@@ -72,7 +72,9 @@ const ruRuMessages: Messages = {
     settingsWallpaperEngineFolderSelected: 'Папка выбрана',
     settingsWallpaperEngineFolderSelectionError: 'Не получилось выбрать папку',
     settingsGettingError: 'Не получилось загрузить настройки',
-    settingsGotten: 'Настройки загружены'
+    settingsGotten: 'Настройки загружены',
+    settingsLocaleLabel: 'Язык',
+    settingsLocaleSelectionError: 'Не получилось изменить язык'
   },
   wallpaperInfo: {
     wallpaperInfoHeader: 'Информация об обоях',
