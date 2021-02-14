@@ -1,26 +1,33 @@
-import { useTypedDispatch } from '../redux'
-import { getCurrentWallpaper } from '../redux/reducers/wallpaperInfo'
-import usePushToast from './usePushToast'
+import { useCallback } from 'react';
+import { useTypedDispatch } from '../redux';
+import { getCurrentWallpaper } from '../redux/reducers/wallpaperInfo';
+import usePushToast from './usePushToast';
 
 const useGetWallpaperInfo = (): ((wallpaperEngineFolder: string) => void) => {
-  const dispatch = useTypedDispatch()
-  const pushToast = usePushToast()
+  const dispatch = useTypedDispatch();
+  const pushToast = usePushToast();
 
-  const action = async (wallpaperEngineFolder: string) => {
-    const result = await dispatch(getCurrentWallpaper(wallpaperEngineFolder))
+  const action = useCallback(
+    async (wallpaperEngineFolder: string) => {
+      const result = await dispatch(getCurrentWallpaper(wallpaperEngineFolder));
 
-    if (getCurrentWallpaper.fulfilled.match(result)) {
-      pushToast('wallpaperInfoGotten', 'success')
-    }
+      if (getCurrentWallpaper.fulfilled.match(result)) {
+        pushToast('wallpaperInfoGotten', 'success');
+      }
 
-    if (getCurrentWallpaper.rejected.match(result)) {
-      pushToast('wallpaperInfoGettingError', 'error')
-    }
-  }
+      if (getCurrentWallpaper.rejected.match(result)) {
+        pushToast('wallpaperInfoGettingError', 'error');
+      }
+    },
+    [dispatch, pushToast]
+  );
 
-  return (wallpaperEngineFolder: string) => {
-    action(wallpaperEngineFolder)
-  }
-}
+  const calledAction = useCallback(
+    (wallpaperEngineFolder: string) => action(wallpaperEngineFolder),
+    [action]
+  );
 
-export default useGetWallpaperInfo
+  return calledAction;
+};
+
+export default useGetWallpaperInfo;

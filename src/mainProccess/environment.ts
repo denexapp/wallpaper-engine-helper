@@ -1,11 +1,11 @@
-const vkAppId = process.env.vkAppId
+const { vkAppId } = process.env;
 
 if (vkAppId === undefined) {
-  throw Error()
+  throw Error();
 }
 
 const environment = {
-  vkAppId
-}
+  vkAppId,
+};
 
-export default environment
+export default environment;

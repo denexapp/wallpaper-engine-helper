@@ -1,37 +1,35 @@
-import { OptionsObject, useSnackbar } from 'notistack'
-import { useIntl } from 'react-intl'
-import { MessageKey } from '../localization'
-import {
-  TypedMessageValues
-} from './useTypedMessage'
+import { OptionsObject, useSnackbar } from 'notistack';
+import { useCallback } from 'react';
+import { useIntl } from 'react-intl';
+import { MessageKey } from '../localization';
+import { TypedMessageValues } from './useTypedMessage';
 
-type Variant = 'success' | 'error'
+type Variant = 'success' | 'error';
 
 const variants: { [key in Variant]: OptionsObject } = {
   error: {
     autoHideDuration: 3000,
-    variant: 'error'
+    variant: 'error',
   },
   success: {
     autoHideDuration: 1000,
-    variant: 'success'
-  }
-}
+    variant: 'success',
+  },
+};
 
 const usePushToast = () => {
-  const { enqueueSnackbar } = useSnackbar()
-  const intl = useIntl()
+  const { enqueueSnackbar } = useSnackbar();
+  const intl = useIntl();
 
-  const pushToast = (
-    id: MessageKey,
-    variant: Variant,
-    values?: TypedMessageValues
-  ) => {
-    const message = intl.formatMessage({ id }, values)
-    enqueueSnackbar(message, variants[variant])
-  }
+  const pushToast = useCallback(
+    (id: MessageKey, variant: Variant, values?: TypedMessageValues) => {
+      const message = intl.formatMessage({ id }, values);
+      enqueueSnackbar(message, variants[variant]);
+    },
+    [enqueueSnackbar, intl]
+  );
 
-  return pushToast
-}
+  return pushToast;
+};
 
-export default usePushToast
+export default usePushToast;

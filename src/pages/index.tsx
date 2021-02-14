@@ -1,20 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import Display from '../components/Display'
-import useAuthentication from '../hooks/useAuthentication'
-import useGetSettings from '../hooks/useGetSettings'
-import Main from './Main'
-import Settings from './Settings'
+import React, { useCallback, useEffect, useState } from 'react';
+import Display from '../components/Display';
+import useAuthentication from '../hooks/useAuthentication';
+import useGetSettings from '../hooks/useGetSettings';
+import Main from './Main';
+import Settings from './Settings';
 
 const Pages: React.FC = () => {
-  useAuthentication()
+  useAuthentication();
 
-  const getSettings = useGetSettings(true)
-  useEffect(getSettings, [])
+  const getSettings = useGetSettings(true);
+  useEffect(getSettings, [getSettings]);
 
-  const [showSettings, setShowSettings] = useState(false)
-  const onShowSettings = useCallback(() => setShowSettings(true), [])
-  const onCloseSettings = useCallback(() => setShowSettings(false), [])
-  const settings = showSettings ? <Settings onClose={onCloseSettings} /> : null
+  const [showSettings, setShowSettings] = useState(false);
+  const onShowSettings = useCallback(() => setShowSettings(true), []);
+  const onCloseSettings = useCallback(() => setShowSettings(false), []);
+  const settings = showSettings ? <Settings onClose={onCloseSettings} /> : null;
 
   return (
     <>
@@ -23,7 +23,7 @@ const Pages: React.FC = () => {
       </Display>
       {settings}
     </>
-  )
-}
+  );
+};
 
-export default Pages
+export default Pages;

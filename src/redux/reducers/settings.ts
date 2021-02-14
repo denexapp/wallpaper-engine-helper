@@ -1,42 +1,42 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { ipcRenderer } from 'electron'
-import { LocaleCode } from '../../localization'
-import { Settings } from '../../mainProccess/settings'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { ipcRenderer } from 'electron';
+import { LocaleCode } from '../../localization';
+import { Settings } from '../../mainProccess/settings';
 
-interface State {
-  settings: Settings | null
+export interface State {
+  settings: Settings | null;
 }
 
 const initialState: State = {
-  settings: null
-} as State
+  settings: null,
+} as State;
 
 export const getSettings = createAsyncThunk(
   'settings/getSettings',
   async (showWindow: boolean) => {
     const getSettingsPromise = new Promise<Settings>((resolve, reject) => {
-      ipcRenderer.once('settings-get-success', (event, settings) => {
-        resolve(settings)
-      })
-      ipcRenderer.once('settings-get-fail', () => reject())
-      ipcRenderer.send('settings-get', showWindow)
-    })
+      ipcRenderer.once('settings-get-success', (_event, settings) => {
+        resolve(settings);
+      });
+      ipcRenderer.once('settings-get-fail', () => reject());
+      ipcRenderer.send('settings-get', showWindow);
+    });
 
-    const settings = await getSettingsPromise
+    const settings = await getSettingsPromise;
 
     if (showWindow) {
       const showWindowPromise = new Promise<void>((resolve, reject) => {
-        ipcRenderer.once('settings-window-show-success', () => resolve())
-        ipcRenderer.once('settings-window-show-fail', () => reject())
-        ipcRenderer.send('settings-window-show')
-      })
+        ipcRenderer.once('settings-window-show-success', () => resolve());
+        ipcRenderer.once('settings-window-show-fail', () => reject());
+        ipcRenderer.send('settings-window-show');
+      });
 
-      await showWindowPromise
+      await showWindowPromise;
     }
 
-    return settings
+    return settings;
   }
-)
+);
 
 export const settingsWallpaperEngineFolder = createAsyncThunk(
   'settings/settingsWallpaperEngineFolder',
@@ -44,16 +44,16 @@ export const settingsWallpaperEngineFolder = createAsyncThunk(
     new Promise<boolean>((resolve, reject) => {
       ipcRenderer.once(
         'settings-set-wallpaper-engine-folder-success',
-        (event, set) => {
-          resolve(set)
+        (_event, set) => {
+          resolve(set);
         }
-      )
+      );
       ipcRenderer.once('settings-set-wallpaper-engine-folder-fail', () =>
         reject()
-      )
-      ipcRenderer.send('settings-set-wallpaper-engine-folder')
+      );
+      ipcRenderer.send('settings-set-wallpaper-engine-folder');
     })
-)
+);
 
 export const settingsLocale = createAsyncThunk(
   'settings/locale',
@@ -61,16 +61,14 @@ export const settingsLocale = createAsyncThunk(
     new Promise<LocaleCode>((resolve, reject) => {
       ipcRenderer.once(
         'settings-set-locale-success',
-        (event, localeCode) => {
-          resolve(localeCode)
+        (_event, returnedLocaleCode) => {
+          resolve(returnedLocaleCode);
         }
-      )
-      ipcRenderer.once('settings-set-locale-fail', () =>
-        reject()
-      )
-      ipcRenderer.send('settings-set-locale', localeCode)
+      );
+      ipcRenderer.once('settings-set-locale-fail', () => reject());
+      ipcRenderer.send('settings-set-locale', localeCode);
     })
-)
+);
 
 // export const setSettings = createAsyncThunk(
 //   'settings/setSettings',
@@ -86,16 +84,16 @@ const settings = createSlice({
   name: 'settings',
   initialState,
   reducers: {},
-  extraReducers: builder =>
+  extraReducers: (builder) =>
     builder
       .addCase(getSettings.fulfilled, (state, action) => {
-        state.settings = action.payload
+        state.settings = action.payload;
       })
       .addCase(settingsLocale.fulfilled, (state, action) => {
         if (state.settings) {
-          state.settings.locale = action.payload
+          state.settings.locale = action.payload;
         }
-      })
-})
+      }),
+});
 
-export default settings
+export default settings;

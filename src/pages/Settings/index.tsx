@@ -3,68 +3,76 @@ import {
   IconButton,
   InputAdornment,
   MenuItem,
-  TextField
-} from '@material-ui/core'
-import FolderIcon from '@material-ui/icons/Folder'
-import React, { useEffect } from 'react'
-import Title from '../../components/Title'
-import TypedMessage from '../../components/TypedMessage'
-import useGetSettings from '../../hooks/useGetSettings'
-import usePushToast from '../../hooks/usePushToast'
-import useTypedMessage from '../../hooks/useTypedMessage'
-import { LocaleCode, locales } from '../../localization'
-import { useTypedDispatch, useTypedSelector } from '../../redux'
-import { settingsLocale, settingsWallpaperEngineFolder } from '../../redux/reducers/settings'
-import styles from './styles.module.css'
+  TextField,
+} from '@material-ui/core';
+import FolderIcon from '@material-ui/icons/Folder';
+import React, { useEffect } from 'react';
+import Title from '../../components/Title';
+import TypedMessage from '../../components/TypedMessage';
+import useGetSettings from '../../hooks/useGetSettings';
+import usePushToast from '../../hooks/usePushToast';
+import useTypedMessage from '../../hooks/useTypedMessage';
+import { LocaleCode, locales } from '../../localization';
+import { useTypedDispatch, useTypedSelector } from '../../redux';
+import {
+  settingsLocale,
+  settingsWallpaperEngineFolder,
+} from '../../redux/reducers/settings';
+import styles from './styles.module.css';
 
 interface SettingsProps {
-  onClose: () => void
+  onClose: () => void;
 }
 
-const Settings: React.FC<SettingsProps> = props => {
-  const { onClose } = props
+const Settings: React.FC<SettingsProps> = (props) => {
+  const { onClose } = props;
 
-  const getSettings = useGetSettings(false)
-  const dispatch = useTypedDispatch()
-  const pushToast = usePushToast()
+  const getSettings = useGetSettings(false);
+  const dispatch = useTypedDispatch();
+  const pushToast = usePushToast();
 
   const wallpaperEngineFolder = useTypedSelector(
-    state => state.settings.settings?.wallpaperEngineFolder
-  )
-  const locale = useTypedSelector(state => state.settings.settings?.locale)
+    (state) => state.settings.settings?.wallpaperEngineFolder
+  );
+  const locale = useTypedSelector((state) => state.settings.settings?.locale);
 
   const wallpaperEngineFolderLabel = useTypedMessage({
-    id: 'settingsWallpaperEngineFolderLabel'
-  })
+    id: 'settingsWallpaperEngineFolderLabel',
+  });
   const localeLabel = useTypedMessage({
-    id: 'settingsLocaleLabel'
-  })
+    id: 'settingsLocaleLabel',
+  });
 
-  useEffect(getSettings, [])
+  useEffect(getSettings, [getSettings]);
 
   const handleFolderNameClick = async () => {
-    const result = await dispatch(settingsWallpaperEngineFolder())
+    const result = await dispatch(settingsWallpaperEngineFolder());
     if (
       settingsWallpaperEngineFolder.fulfilled.match(result) &&
       result.payload
     ) {
-      pushToast('settingsWallpaperEngineFolderSelected', 'success')
-      getSettings()
+      pushToast('settingsWallpaperEngineFolderSelected', 'success');
+      getSettings();
     }
     if (settingsWallpaperEngineFolder.rejected.match(result)) {
-      pushToast('settingsWallpaperEngineFolderSelectionError', 'error')
+      pushToast('settingsWallpaperEngineFolderSelectionError', 'error');
     }
-  }
+  };
 
   const handleLocaleChange = (localeCode: LocaleCode) => {
-    const promise = dispatch(settingsLocale(localeCode))
-    promise.then(result => {
-      if (settingsLocale.rejected.match(result) && !result.meta.aborted) {
-        pushToast('settingsLocaleSelectionError', 'error')
-      }
-    })
-    return promise.abort
-  }
+    const promise = dispatch(settingsLocale(localeCode));
+    promise
+      .then((result) => {
+        if (settingsLocale.rejected.match(result) && !result.meta.aborted) {
+          pushToast('settingsLocaleSelectionError', 'error');
+        }
+        return undefined;
+      })
+      .catch(() => {
+        pushToast('settingsLocaleSelectionError', 'error');
+      });
+    return promise.abort;
+  };
 
   return (
     <div className={styles.main}>
@@ -88,13 +96,15 @@ const Settings: React.FC<SettingsProps> = props => {
                 <FolderIcon />
               </IconButton>
             </InputAdornment>
-          )
+          ),
         }}
       />
       <TextField
         select
         value={locale}
-        onChange={event => handleLocaleChange(event.target.value as LocaleCode)}
+        onChange={(event) =>
+          handleLocaleChange(event.target.value as LocaleCode)
+        }
         label={localeLabel}
         variant="outlined"
       >
@@ -105,7 +115,7 @@ const Settings: React.FC<SettingsProps> = props => {
         ))}
       </TextField>
     </div>
-  )
-}
+  );
+};
 
-export default Settings
+export default Settings;

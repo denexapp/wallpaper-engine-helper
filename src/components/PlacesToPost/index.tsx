@@ -1,7 +1,7 @@
-import { Typography, Link } from '@material-ui/core'
-import React from 'react'
-import TypedMessage from '../TypedMessage'
-import styles from './styles.module.css'
+import { Typography, Link } from '@material-ui/core';
+import React from 'react';
+import TypedMessage from '../TypedMessage';
+import styles from './styles.module.css';
 
 const PlacesToPost: React.FC = () => {
   return (
@@ -28,7 +28,7 @@ const PlacesToPost: React.FC = () => {
         </Link>
       </li>
     </ul>
-  )
-}
+  );
+};
 
-export default PlacesToPost
+export default PlacesToPost;

@@ -1,28 +1,23 @@
-import { app, autoUpdater, ipcMain } from 'electron'
-import electronIsDev from 'electron-is-dev'
+import { app, ipcMain } from 'electron';
+import { autoUpdater } from 'electron-updater';
+import electronIsDev from 'electron-is-dev';
 
 const autoupdate = () => {
-  if (!electronIsDev && process.argv[1] !== '--squirrel-firstrun') {
-    const server = 'https://wallpaper.denexapp.me'
-    const url = `${server}/update/${process.platform}/${app.getVersion()}`
-
-    autoUpdater.setFeedURL({ url })
-
+  if (!electronIsDev) {
     setTimeout(() => {
-      autoUpdater.checkForUpdates()
       setInterval(() => {
-        autoUpdater.checkForUpdates()
-      }, 180_000)
-    }, 20_000)
+        autoUpdater.checkForUpdatesAndNotify();
+      }, 180_000);
+    }, 20_000);
   }
 
-  ipcMain.on('get-version', event => {
-    event.reply('get-version', app.getVersion())
-  })
+  ipcMain.on('get-version', (event) => {
+    event.reply('get-version', app.getVersion());
+  });
 
   ipcMain.on('restart-to-update', () => {
-    autoUpdater.quitAndInstall()
-  })
-}
+    autoUpdater.quitAndInstall();
+  });
+};
 
-export default autoupdate
+export default autoupdate;

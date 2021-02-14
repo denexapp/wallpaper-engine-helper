@@ -1,7 +1,7 @@
-import { Typography, Link } from '@material-ui/core'
-import React from 'react'
-import TypedMessage from '../../components/TypedMessage'
-import styles from './styles.module.css'
+import { Typography, Link } from '@material-ui/core';
+import React from 'react';
+import TypedMessage from '../TypedMessage';
+import styles from './styles.module.css';
 
 const Instruction: React.FC = () => {
   return (
@@ -46,7 +46,7 @@ const Instruction: React.FC = () => {
         </Link>
       </li>
     </ul>
-  )
-}
+  );
+};
 
-export default Instruction
+export default Instruction;

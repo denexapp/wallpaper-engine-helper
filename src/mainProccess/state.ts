@@ -1,13 +1,13 @@
-import VK from 'vk-ts'
+import VK from 'vk-ts';
 
 type State = {
-  accessToken: string | null
-  vk: VK | null
-}
+  accessToken: string | null;
+  vk: VK | null;
+};
 
 const state: State = {
   accessToken: null,
-  vk: null
-}
+  vk: null,
+};
 
-export default state
+export default state;

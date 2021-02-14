@@ -1,0 +1,21 @@
+{
+  "name": "wallpaper-engine-vk-helper",
+  "productName": "wallpaper-engine-vk-helper",
+  "version": "2.3.0",
+  "description": "My Electron application description",
+  "main": "./main.prod.js",
+  "author": {
+    "name": "Denis Mukhametov",
+    "email": "denis.mukhametov@gmail.com",
+    "url": "https://denexapp.me"
+  },
+  "scripts": {
+    "electron-rebuild": "node -r ../.erb/scripts/BabelRegister.js ../.erb/scripts/ElectronRebuild.js",
+    "postinstall": "yarn electron-rebuild"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "7zip-min": "^1.3.0",
+    "keytar": "^7.3.0"
+  }
+}

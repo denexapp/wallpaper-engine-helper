@@ -1,1 +1,2 @@
-export const groupId = 140359831
+// eslint-disable-next-line import/prefer-default-export
+export const groupId = 140359831;

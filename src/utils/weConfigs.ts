@@ -1,41 +1,41 @@
-import { Err, JsonDecoder } from 'ts.data.json'
-import { WallpaperType } from './wallpaperTypes'
+import { Err, JsonDecoder } from 'ts.data.json';
+import { WallpaperType } from './wallpaperTypes';
 
 interface SelectedWallpaperConfig {
-  file: string
+  file: string;
 }
 
 interface UserConfig {
-  version: 1
+  version: 1;
   general: {
     browser: {
-      lastselectedmonitor: string
-    }
+      lastselectedmonitor: string;
+    };
     wallpaperconfig: {
       selectedwallpapers: {
-        [monitor: string]: SelectedWallpaperConfig
-      }
-    }
-  }
+        [monitor: string]: SelectedWallpaperConfig;
+      };
+    };
+  };
 }
 
 export interface Config {
-  [username: string]: UserConfig
+  [username: string]: UserConfig;
 }
 
 export interface Package {
-  dependency?: string
-  preset?: object
-  type?: WallpaperType
-  workshopId?: number
+  dependency?: string;
+  preset?: Record<string, unknown>;
+  type?: WallpaperType;
+  workshopId?: number;
 }
 
 const selectedWallpaperConfigDecoder = JsonDecoder.object<SelectedWallpaperConfig>(
   {
-    file: JsonDecoder.string
+    file: JsonDecoder.string,
   },
   'SelectedWallpaperConfig'
-)
+);
 
 const userConfigDecoder = JsonDecoder.object<UserConfig>(
   {
@@ -44,7 +44,7 @@ const userConfigDecoder = JsonDecoder.object<UserConfig>(
       {
         browser: JsonDecoder.object(
           {
-            lastselectedmonitor: JsonDecoder.string
+            lastselectedmonitor: JsonDecoder.string,
           },
           'browser'
         ),
@@ -53,60 +53,66 @@ const userConfigDecoder = JsonDecoder.object<UserConfig>(
             selectedwallpapers: JsonDecoder.dictionary(
               selectedWallpaperConfigDecoder,
               'selectedwallpaper'
-            )
+            ),
           },
           'wallpaperconfig'
-        )
+        ),
       },
       'general'
-    )
+    ),
   },
   'UserConfig'
-)
+);
 const configDictionaryDecoder: JsonDecoder.Decoder<Config> = JsonDecoder.dictionary<UserConfig>(
   userConfigDecoder,
   'Config'
-)
+);
 
 export const configDecoder: JsonDecoder.Decoder<Config> = new JsonDecoder.Decoder(
   (json: unknown) => {
-    const result = JsonDecoder.dictionary<string | UserConfig>(JsonDecoder.oneOf<string | UserConfig>([
-      JsonDecoder.string,
-      userConfigDecoder
-    ], 'configDecoder'), 'configDecoder').decode(json)
+    const result = JsonDecoder.dictionary<string | UserConfig>(
+      JsonDecoder.oneOf<string | UserConfig>(
+        [JsonDecoder.string, userConfigDecoder],
+        'configDecoder'
+      ),
+      'configDecoder'
+    ).decode(json);
     if (!result.isOk()) {
-      return new Err('value is not an object')
+      return new Err('value is not an object');
     }
-    const { _installdirectory: _, ...valueWithoutInstallDirectory } = result.value
-    return configDictionaryDecoder.decode(valueWithoutInstallDirectory)
+    const {
+      _installdirectory: installDirectory,
+      ...valueWithoutInstallDirectory
+    } = result.value;
+    return configDictionaryDecoder.decode(valueWithoutInstallDirectory);
   }
-)
+);
 
 const wallpaperTypeDecoder: JsonDecoder.Decoder<WallpaperType> = new JsonDecoder.Decoder(
   (json: unknown) => {
-    const result = JsonDecoder.string.decode(json)
+    const result = JsonDecoder.string.decode(json);
     if (!result.isOk()) {
-      return new Err('Value is not a string')
+      return new Err('Value is not a string');
     }
-    const value = result.value.toLowerCase()
+    const value = result.value.toLowerCase();
     return JsonDecoder.oneOf<WallpaperType>(
       [
         JsonDecoder.isExactly('application'),
         JsonDecoder.isExactly('video'),
         JsonDecoder.isExactly('scene'),
-        JsonDecoder.isExactly('web')
+        JsonDecoder.isExactly('web'),
       ],
       'WallpaperType'
-    ).decode(value)
+    ).decode(value);
   }
-)
+);
 
 export const packageDecoder = JsonDecoder.object<Package>(
   {
     dependency: JsonDecoder.optional(JsonDecoder.string),
     preset: JsonDecoder.optional(JsonDecoder.object({}, 'preset')),
     type: JsonDecoder.optional(wallpaperTypeDecoder),
-    workshopId: JsonDecoder.optional(JsonDecoder.number)
+    workshopId: JsonDecoder.optional(JsonDecoder.number),
   },
   'Package'
-)
+);

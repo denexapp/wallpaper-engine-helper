@@ -1,18 +1,18 @@
-import usePushToast from './usePushToast'
+import usePushToast from './usePushToast';
 
 const useCopyToClipboard = () => {
-  const pushToast = usePushToast()
+  const pushToast = usePushToast();
 
   const copyToClipboard = async (text: string) => {
     try {
-      await navigator.clipboard.writeText(text)
-      pushToast('copySuccess', 'success')
+      await navigator.clipboard.writeText(text);
+      pushToast('copySuccess', 'success');
     } catch {
-      pushToast('copyFail', 'error')
+      pushToast('copyFail', 'error');
     }
-  }
+  };
 
-  return copyToClipboard
-}
+  return copyToClipboard;
+};
 
-export default useCopyToClipboard
+export default useCopyToClipboard;
