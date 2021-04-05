@@ -82,6 +82,7 @@ export const configDecoder: JsonDecoder.Decoder<Config> = new JsonDecoder.Decode
     }
     const {
       _installdirectory: installDirectory,
+      '?installdirectory': installDirectoryNew,
       ...valueWithoutInstallDirectory
     } = result.value;
     return configDictionaryDecoder.decode(valueWithoutInstallDirectory);
