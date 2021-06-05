@@ -1,8 +1,12 @@
 import { app, ipcMain } from 'electron';
 import fs from 'fs-extra';
 import path from 'path';
+import _7z from '7zip-min';
+import { delimeter } from '../utils/documents';
 
-const tempDirectoryName = 'archive';
+const tempDirectoryName = 'wallpaper-engine-vk-helper-temp';
+const wallpaperDirectoryName = 'wallpaper';
+const desktopDirectoryName = 'Wallpaper Engine VK Helper';
 
 export interface MakeArchiveSettings {
   name: string;
@@ -11,11 +15,41 @@ export interface MakeArchiveSettings {
 }
 
 const makeArchive = async (archiveSettings: MakeArchiveSettings) => {
-  const { folder } = archiveSettings;
-  const tempDirectory = path.join(app.getPath('temp'), tempDirectoryName);
+  const { folder, archiveNumber, name } = archiveSettings;
 
-  await fs.remove(tempDirectory);
-  await fs.copy(folder, tempDirectory);
+  const archiveName = `${archiveNumber.toString(10)}${delimeter}${name}.7z`;
+
+  const tempDirectoryPath = path.join(
+    app.getPath('temp'),
+    tempDirectoryName,
+    wallpaperDirectoryName
+  );
+
+  const wallpaperDirectoryPath = path.join(
+    app.getPath('temp'),
+    tempDirectoryName,
+    wallpaperDirectoryName,
+    name
+  );
+
+  const archivePath = path.join(
+    app.getPath('desktop'),
+    desktopDirectoryName,
+    archiveName
+  );
+
+  await fs.remove(tempDirectoryPath);
+  await fs.copy(folder, wallpaperDirectoryPath);
+
+  await new Promise<void>((resolve, reject) => {
+    _7z.pack(wallpaperDirectoryPath, archivePath, (error) => {
+      if (error) {
+        reject(new Error("Can't pack archive"));
+      } else {
+        resolve();
+      }
+    });
+  });
 };
 
 const archive = () => {
