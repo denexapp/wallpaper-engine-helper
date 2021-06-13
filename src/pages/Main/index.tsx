@@ -44,6 +44,8 @@ const Main: React.FC<MainProps> = (props) => {
   const handleMakeArchiveClick = async () => {
     if (folder === null) return;
 
+    const dismissToast = pushToast('mainMakeArchiveUploading', 'progress');
+
     const result = await dispatch(
       makeArchive({
         archiveNumber,
@@ -51,6 +53,8 @@ const Main: React.FC<MainProps> = (props) => {
         name,
       })
     );
+
+    dismissToast();
 
     if (makeArchive.fulfilled.match(result)) {
       pushToast('mainMakeArchiveSuccess', 'success');

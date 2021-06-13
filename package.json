@@ -245,7 +245,7 @@
     "regenerator-runtime": "^0.13.5",
     "source-map-support": "^0.5.19",
     "ts.data.json": "^1.5.0",
-    "vk-ts": "^0.11.2"
+    "vk-ts": "^0.19.6"
   },
   "devEngines": {
     "node": ">=10.x",

@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { MessageKey } from '../localization';
 import { TypedMessageValues } from './useTypedMessage';
 
-type Variant = 'success' | 'error';
+type Variant = 'success' | 'error' | 'progress';
 
 const variants: { [key in Variant]: OptionsObject } = {
   error: {
@@ -15,16 +15,28 @@ const variants: { [key in Variant]: OptionsObject } = {
     autoHideDuration: 1000,
     variant: 'success',
   },
+  progress: {
+    variant: 'info',
+    persist: true,
+  },
 };
 
+type Dismiss = () => void;
+
 const usePushToast = () => {
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const intl = useIntl();
 
   const pushToast = useCallback(
-    (id: MessageKey, variant: Variant, values?: TypedMessageValues) => {
+    (
+      id: MessageKey,
+      variant: Variant,
+      values?: TypedMessageValues
+    ): Dismiss => {
       const message = intl.formatMessage({ id }, values);
-      enqueueSnackbar(message, variants[variant]);
+      const key = enqueueSnackbar(message, variants[variant]);
+      const dismiss: Dismiss = () => closeSnackbar(key);
+      return dismiss;
     },
     [enqueueSnackbar, intl]
   );

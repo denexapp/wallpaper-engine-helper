@@ -3789,13 +3789,6 @@ cross-env@^7.0.2:
   dependencies:
     cross-spawn "^7.0.1"
 
-cross-fetch@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.0.6.tgz#3a4040bc8941e653e0e9cf17f29ebcd177d3365c"
-  integrity sha512-KBPUbqgFjzWlVcURG+Svp9TlhA5uliYtiNx/0r8nv0pdypeQCRJ9IaSIc3q/x3q8t3F75cHuwxVql1HFGHCNJQ==
-  dependencies:
-    node-fetch "2.6.1"
-
 cross-spawn@^6.0.0:
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"
@@ -5640,6 +5633,15 @@ form-data@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-3.0.0.tgz#31b7e39c85f1355b7139ee0c647cf0de7f83c682"
   integrity sha512-CKMFDglpbMi6PyN+brwB9Q/GOw0eAnsrEZDgcsH5Krhz5Od/haKHAX0NmQfha2zPPz0JpWzA7GJHGSnvCRLWsg==
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.8"
+    mime-types "^2.1.12"
+
+form-data@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-4.0.0.tgz#93919daeaf361ee529584b9b31664dc12c9fa452"
+  integrity sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
   dependencies:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"
@@ -8437,7 +8439,7 @@ node-addon-api@^1.6.0:
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-1.7.2.tgz#3df30b95720b53c24e59948b49532b662444f54d"
   integrity sha512-ibPK3iA+vaY1eEjESkQkM0BbCqFOaZMiXRTtdB0u7b4djtY6JnsjvPdUHVMg6xQt3B8fpTTWHI9A+ADjM9frzg==
 
-node-fetch@2.6.1, node-fetch@^2.6.1:
+node-fetch@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
@@ -11636,10 +11638,10 @@ truncate-utf8-bytes@^1.0.0:
   dependencies:
     utf8-byte-length "^1.0.1"
 
-ts.data.json@^1.1.0, ts.data.json@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/ts.data.json/-/ts.data.json-1.5.0.tgz#fe6484546974d0787f5a3224a91187355699db52"
-  integrity sha512-LLC8b4un4sRtWBA47MYaBF+JxsDYq/dUDQrl1Y2l7+RZLBbZvQpIEmr2vCCo6Tegg+hay3sBFYiQHxtTknSDtA==
+ts.data.json@^1.5.0, ts.data.json@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/ts.data.json/-/ts.data.json-1.7.0.tgz#b887549e10d6176c64cf9c99d386aadde341ee66"
+  integrity sha512-Nwi4P5aXBmKxxJZLe1rJ/ejya/uhcfUh4PsstRDlNnEU+sjGXIQu0XVLQbafPZ7KKm3gb+IX4EygsSMoic4/ng==
 
 tsconfig-paths@^3.9.0:
   version "3.9.0"
@@ -12023,13 +12025,14 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vk-ts@^0.11.2:
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/vk-ts/-/vk-ts-0.11.2.tgz#78b45c81aa2d536a783368e370f409cbe08b47b0"
-  integrity sha512-BIpPrhuEOm4WbxMw5x8sidEuRZPStbuiyvtPt+acwoQ6l+jQz43rURkVjhKIRgPmAeYzbo3is0OjgQsJKb3ERA==
+vk-ts@^0.19.6:
+  version "0.19.6"
+  resolved "https://registry.yarnpkg.com/vk-ts/-/vk-ts-0.19.6.tgz#3937a1313e445ce0a85d82214cfe4a59cb276f88"
+  integrity sha512-bkgL8yVUELGP3phtKOkJp/MG7CfYkr/hVoNjnS35Yju6DrIbb/86EsZB7rQX47IxmUCOPLCsD2Xdilk3fJ50qQ==
   dependencies:
-    cross-fetch "^3.0.6"
-    ts.data.json "^1.1.0"
+    form-data "^4.0.0"
+    node-fetch "^2.6.1"
+    ts.data.json "^1.7.0"
 
 vm-browserify@^1.0.1:
   version "1.1.2"
