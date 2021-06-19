@@ -19,7 +19,7 @@ export interface MakeArchiveSettings {
 const makeArchive = async (archiveSettings: MakeArchiveSettings, vk: VK) => {
   const { folder, archiveNumber, name } = archiveSettings;
 
-  const safeName = name.replace(/[*|?:"<>{}[]\\\/]/gi, '');
+  const safeName = name.replace(/[*|?:"<>{}[\]\\/]/gi, '');
   const archiveName = `${archiveNumber.toString(10)}${delimeter}${safeName}.7z`;
 
   const tempDirectoryPath = path.join(
