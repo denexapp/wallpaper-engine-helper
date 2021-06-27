@@ -1,7 +1,7 @@
 import { Button } from '@material-ui/core';
+import ArchiveIcon from '@material-ui/icons/Archive';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import SettingsIcon from '@material-ui/icons/Settings';
-import ArchiveIcon from '@material-ui/icons/Archive';
 import React from 'react';
 import Instruction from '../../components/Instruction';
 import PlacesToPost from '../../components/PlacesToPost';
@@ -13,11 +13,12 @@ import User from '../../components/User';
 import Version from '../../components/Version';
 import WallpaperInfo from '../../components/WallpaperInfo';
 import useCopyToClipboard from '../../hooks/useCopyToClipboard';
+import usePushToast from '../../hooks/usePushToast';
 import { useTypedDispatch, useTypedSelector } from '../../redux';
+import { makeArchive } from '../../redux/reducers/documents';
+import { resolutionTypeDescriptions } from '../../utils/resolutionTypes';
 import { wallpaperTypeDescriptions } from '../../utils/wallpaperTypes';
 import styles from './styles.module.css';
-import { makeArchive } from '../../redux/reducers/documents';
-import usePushToast from '../../hooks/usePushToast';
 
 interface MainProps {
   onShowSettings: () => void;
@@ -33,6 +34,9 @@ const Main: React.FC<MainProps> = (props) => {
   const link = useTypedSelector((state) => state.wallpaperInfo.link);
   const name = useTypedSelector((state) => state.wallpaperInfo.name);
   const type = useTypedSelector((state) => state.wallpaperInfo.type);
+  const resolution = useTypedSelector(
+    (state) => state.wallpaperInfo.resolution
+  );
   const folder = useTypedSelector((state) => state.wallpaperInfo.folder);
   const archiveNumber = useTypedSelector(
     (state) => state.documents.archiveNumber
@@ -70,8 +74,18 @@ const Main: React.FC<MainProps> = (props) => {
   };
 
   const handlePostTextClick = async () => {
+    const resolutionText =
+      type === 'video'
+        ? resolutionTypeDescriptions[resolution.type].postText(
+            resolution.width,
+            resolution.height
+          )
+        : null;
+
     const text = `Рубрика #тема_дня@wp.engine:
-${name} (тип темы - ${wallpaperTypeDescriptions[type].postText})
+${name} (тип темы - ${wallpaperTypeDescriptions[type].postText}${
+      resolutionText ? `, ${resolutionText}` : ''
+    })
 ${description}`;
     await copyToClipboard(text);
   };

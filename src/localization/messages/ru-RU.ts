@@ -33,6 +33,11 @@ const ruRuMessages: Messages = {
   wallpaperTypeVideo: 'Видео',
   wallpaperTypeWeb: 'Веб',
 
+  resolutionType4K: '4K',
+  resolutionType1440p: '1440p',
+  resolutionTypeSmall: '1080p или меньше',
+  resolutionTypeCustom: 'Другое разрешение',
+
   versionNewVersionDownloaded: 'Загружена новая версия {version}. {restart}',
   versionRestartToUpdate: 'Перезапустить для обновления',
   versionVersion: 'Версия {version}',
@@ -79,6 +84,10 @@ const ruRuMessages: Messages = {
 
   postHeader: 'Подготовка поста',
   postDescriptionLabel: 'Описание темы',
+
+  resolutionResolution: 'Разрешение',
+  resolutionWidth: 'Ширина',
+  resolutionHeight: 'Высота',
 };
 
 export default ruRuMessages;

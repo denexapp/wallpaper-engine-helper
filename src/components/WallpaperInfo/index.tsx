@@ -9,6 +9,7 @@ import {
   WallpaperType,
   wallpaperTypeDescriptions,
 } from '../../utils/wallpaperTypes';
+import Resolution from '../Resolution';
 import Subheader from '../Subheader';
 import TypedMessage from '../TypedMessage';
 import styles from './styles.module.css';
@@ -84,6 +85,7 @@ const WallpaperInfo: React.FC = () => {
           )
         )}
       </TextField>
+      <Resolution />
     </div>
   );
 };

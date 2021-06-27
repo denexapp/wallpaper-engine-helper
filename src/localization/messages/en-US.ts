@@ -31,6 +31,11 @@ const enUsMessages = {
   wallpaperTypeVideo: 'Video',
   wallpaperTypeWeb: 'Web',
 
+  resolutionType4K: '4K',
+  resolutionType1440p: '1440p',
+  resolutionTypeSmall: '1080p or less',
+  resolutionTypeCustom: 'Custom resolution',
+
   versionNewVersionDownloaded: 'New version {version} is downloaded. {restart}',
   versionRestartToUpdate: 'Restart to update',
   versionVersion: 'Version {version}',
@@ -72,6 +77,10 @@ const enUsMessages = {
 
   postHeader: 'Building post',
   postDescriptionLabel: 'Wallpaper description',
+
+  resolutionResolution: 'Resolution',
+  resolutionWidth: 'Width',
+  resolutionHeight: 'Height',
 };
 
 export default enUsMessages;
