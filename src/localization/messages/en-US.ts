@@ -74,6 +74,7 @@ const enUsMessages = {
     'Specify Wallpaper Engine folder to recieve wallpaper info automatically',
   wallpaperInfoGettingError: "Can't get wallpaper info",
   wallpaperInfoGotten: 'Wallpaper info loaded',
+  wallpaperInfoWithoutResolution: "Can't get video resolution",
 
   postHeader: 'Building post',
   postDescriptionLabel: 'Wallpaper description',

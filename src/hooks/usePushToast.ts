@@ -4,12 +4,16 @@ import { useIntl } from 'react-intl';
 import { MessageKey } from '../localization';
 import { TypedMessageValues } from './useTypedMessage';
 
-type Variant = 'success' | 'error' | 'progress';
+type Variant = 'success' | 'error' | 'progress' | 'warning';
 
 const variants: { [key in Variant]: OptionsObject } = {
   error: {
     autoHideDuration: 3000,
     variant: 'error',
+  },
+  warning: {
+    autoHideDuration: 3000,
+    variant: 'warning',
   },
   success: {
     autoHideDuration: 1000,

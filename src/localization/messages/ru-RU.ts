@@ -81,6 +81,7 @@ const ruRuMessages: Messages = {
     'Укажите папку с Wallpaper Engine в настройках, чтобы подгружать информацию об обоях автоматически',
   wallpaperInfoGettingError: 'Не получилось загрузить информацию об обоях',
   wallpaperInfoGotten: 'Информация об обоях загружена',
+  wallpaperInfoWithoutResolution: 'Не получилось определить разрешение видео',
 
   postHeader: 'Подготовка поста',
   postDescriptionLabel: 'Описание темы',

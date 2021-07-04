@@ -8,6 +8,12 @@ module.exports = {
         'react/prop-types': 'off',
       },
     },
+    {
+      files: ['**/*.d.ts'],
+      rules: {
+        'import/prefer-default-export': 'off',
+      },
+    },
   ],
   // disable prop types - denexapp
   rules: {

@@ -2,9 +2,16 @@ import { ipcMain } from 'electron';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
+import ffprobe from '@ffprobe-installer/ffprobe';
+import ffmpeg from 'fluent-ffmpeg';
 import { getPublishedFileDetails } from '../utils/steam';
 import { WallpaperType } from '../utils/wallpaperTypes';
-import { configDecoder, packageDecoder } from '../utils/weConfigs';
+import { configDecoder, Package, packageDecoder } from '../utils/weConfigs';
+
+interface Resolution {
+  width: number;
+  height: number;
+}
 
 export interface WallpaperInfo {
   workshopId: number;
@@ -12,7 +19,40 @@ export interface WallpaperInfo {
   type: WallpaperType;
   link: string;
   folder: string;
+  resolution: Resolution | null;
 }
+
+const getVideoWallpaperResolution = async (
+  folder: string,
+  decodedProject: Package
+): Promise<Resolution | null> => {
+  if (decodedProject.type !== 'video') return null;
+
+  const filePath = path.join(folder, decodedProject.file);
+
+  ffmpeg.setFfprobePath(ffprobe.path);
+
+  return new Promise((resolve) => {
+    ffmpeg.ffprobe(filePath, (error, data) => {
+      if (error) resolve(null);
+      for (let index = 0; index < data.streams.length; index += 1) {
+        const stream = data.streams[index];
+        if (stream.codec_type === 'video') {
+          if (
+            typeof stream.height === 'number' &&
+            typeof stream.width === 'number'
+          ) {
+            resolve({
+              height: stream.height,
+              width: stream.width,
+            });
+          }
+        }
+      }
+      resolve(null);
+    });
+  });
+};
 
 const getWallpaperInfo = async (folderPath: string): Promise<WallpaperInfo> => {
   const configFileName = 'config.json';
@@ -62,12 +102,15 @@ const getWallpaperInfo = async (folderPath: string): Promise<WallpaperInfo> => {
 
   const name = (await getPublishedFileDetails(workshopId)).title;
 
+  const resolution = await getVideoWallpaperResolution(folder, decodedProject);
+
   return {
     link,
     name,
     type,
     workshopId,
     folder,
+    resolution,
   };
 };
 

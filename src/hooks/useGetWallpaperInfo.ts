@@ -12,7 +12,14 @@ const useGetWallpaperInfo = (): ((wallpaperEngineFolder: string) => void) => {
       const result = await dispatch(getCurrentWallpaper(wallpaperEngineFolder));
 
       if (getCurrentWallpaper.fulfilled.match(result)) {
-        pushToast('wallpaperInfoGotten', 'success');
+        if (
+          result.payload.type === 'video' &&
+          result.payload.resolution === null
+        ) {
+          pushToast('wallpaperInfoWithoutResolution', 'warning');
+        } else {
+          pushToast('wallpaperInfoGotten', 'success');
+        }
       }
 
       if (getCurrentWallpaper.rejected.match(result)) {

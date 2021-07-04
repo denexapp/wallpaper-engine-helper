@@ -28,6 +28,7 @@ export interface Package {
   preset?: Record<string, unknown>;
   type?: WallpaperType;
   workshopId?: number;
+  file: string;
 }
 
 const selectedWallpaperConfigDecoder = JsonDecoder.object<SelectedWallpaperConfig>(
@@ -114,6 +115,7 @@ export const packageDecoder = JsonDecoder.object<Package>(
     preset: JsonDecoder.optional(JsonDecoder.object({}, 'preset')),
     type: JsonDecoder.optional(wallpaperTypeDecoder),
     workshopId: JsonDecoder.optional(JsonDecoder.number),
+    file: JsonDecoder.string,
   },
   'Package'
 );

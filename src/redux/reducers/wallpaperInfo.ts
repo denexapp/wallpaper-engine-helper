@@ -88,11 +88,19 @@ const wallpaperInfo = createSlice({
   },
   extraReducers: (builder) =>
     builder.addCase(getCurrentWallpaper.fulfilled, (state, action) => {
-      const { link, name, type, folder } = action.payload;
+      const { link, name, type, folder, resolution } = action.payload;
       state.link = link;
       state.name = name;
       state.type = type;
       state.folder = folder;
+      if (resolution !== null) {
+        state.resolution.height = resolution.height;
+        state.resolution.width = resolution.width;
+        state.resolution.type = getResolutionTypeFromResolution(
+          state.resolution.width,
+          state.resolution.height
+        );
+      }
     }),
 });
 
