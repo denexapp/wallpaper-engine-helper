@@ -1,6 +1,6 @@
-# Wallpaper Engine VK Helper
+# Wallpaper Engine Helper
 
-[![GitHub license](https://img.shields.io/github/license/denexapp/wallpaper-engine-vk-helper)](https://github.com/denexapp/wallpaper-engine-vk-helper/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/denexapp/wallpaper-engine-helper)](https://github.com/denexapp/wallpaper-engine-helper/blob/master/LICENSE)
 
 An Electron app to help run a Wallpaper Engine [community](https://vk.com/wp.engine).
 
