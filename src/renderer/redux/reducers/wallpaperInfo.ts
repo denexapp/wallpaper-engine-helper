@@ -27,7 +27,7 @@ export const getCurrentWallpaper = createAsyncThunk(
         resolve(wallpaperInfo);
       });
       window.electron.ipcRenderer.once('current-wallpaper-fail', () => reject());
-      window.electron.ipcRenderer.sendcurrentWallpaper(wallpaperEngineFolder);
+      window.electron.ipcRenderer.currentWallpaper(wallpaperEngineFolder);
     })
 );
 
