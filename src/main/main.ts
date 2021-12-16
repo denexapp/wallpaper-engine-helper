@@ -85,6 +85,7 @@ const createWindow = async () => {
     },
   });
 
+  mainWindow.removeMenu();
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 
   mainWindow.on('ready-to-show', () => {
