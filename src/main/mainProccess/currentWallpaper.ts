@@ -2,11 +2,15 @@ import { ipcMain } from 'electron';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import ffprobe from '@ffprobe-installer/ffprobe';
 import ffmpeg from 'fluent-ffmpeg';
 import { getPublishedFileDetails } from '../utils/steam';
 import { configDecoder, Package, packageDecoder } from '../utils/weConfigs';
-import { Resolution, WallpaperInfo } from '../../common/types/WallpaperInfo'
+import { Resolution, WallpaperInfo } from '../../common/types/WallpaperInfo';
+
+const ffprobePath = require('ffprobe-static-electron').path.replace(
+  'app.asar',
+  'app.asar.unpacked'
+);
 
 const getVideoWallpaperResolution = async (
   folder: string,
@@ -16,7 +20,7 @@ const getVideoWallpaperResolution = async (
 
   const filePath = path.join(folder, decodedProject.file);
 
-  ffmpeg.setFfprobePath(ffprobe.path);
+  ffmpeg.setFfprobePath(ffprobePath);
 
   return new Promise((resolve) => {
     ffmpeg.ffprobe(filePath, (error, data) => {
@@ -50,9 +54,10 @@ const getWallpaperInfo = async (folderPath: string): Promise<WallpaperInfo> => {
   const json = JSON.parse(config);
   const decodedConfig = await configDecoder.decodeToPromise(json);
   const { lastselectedmonitor } = decodedConfig[username].general.browser;
-  const { file } = decodedConfig[
-    username
-  ].general.wallpaperconfig.selectedwallpapers[lastselectedmonitor];
+  const { file } =
+    decodedConfig[username].general.wallpaperconfig.selectedwallpapers[
+      lastselectedmonitor
+    ];
 
   const folder = path.normalize(path.parse(file).dir);
   const projectPath = path.join(folder, projectFileName);
