@@ -1,6 +1,6 @@
 {
   "name": "wallpaper-engine-helper",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "A helper app for the Wallpaper Engine community on VK",
   "main": "./dist/main/main.js",
   "author": {
