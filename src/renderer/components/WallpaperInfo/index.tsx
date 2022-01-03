@@ -1,5 +1,5 @@
-import { IconButton, MenuItem, TextField } from '@mui/material';
-import { Refresh } from '@mui/icons-material';
+import { IconButton, InputAdornment, MenuItem, TextField } from '@mui/material';
+import { ContentCopy, Refresh } from '@mui/icons-material';
 import React from 'react';
 import useGetWallpaperInfo from '../../hooks/useGetWallpaperInfo';
 import useTypedMessage from '../../hooks/useTypedMessage';
@@ -13,9 +13,11 @@ import Resolution from '../Resolution';
 import Subheader from '../Subheader';
 import TypedMessage from '../TypedMessage';
 import styles from './styles.module.css';
+import useCopyToClipboard from '../../hooks/useCopyToClipboard';
 
 const WallpaperInfo: React.FC = () => {
   const dispatch = useTypedDispatch();
+  const copyToClipboard = useCopyToClipboard();
   const getWallpaperInfo = useGetWallpaperInfo();
 
   const link = useTypedSelector((state) => state.wallpaperInfo.link);
@@ -28,6 +30,7 @@ const WallpaperInfo: React.FC = () => {
   const onLinkChange = (value: string) => dispatch(setLink(value));
   const onNameChange = (value: string) => dispatch(setName(value));
   const onTypeChange = (value: WallpaperType) => dispatch(setType(value));
+  const onCopyLink = () => copyToClipboard(link);
   const onRefreshClick =
     wallpaperEngineFolder === undefined
       ? undefined
@@ -69,6 +72,19 @@ const WallpaperInfo: React.FC = () => {
         onChange={(event) => onLinkChange(event.target.value)}
         label={linkLabel}
         variant="outlined"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                disabled={link === ''}
+                onClick={onCopyLink}
+                edge="end"
+              >
+                <ContentCopy />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
       />
       <TextField
         select
