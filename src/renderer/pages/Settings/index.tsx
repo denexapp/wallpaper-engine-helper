@@ -16,6 +16,7 @@ import { LocaleCode, locales } from '../../../common/localization';
 import { useTypedDispatch, useTypedSelector } from '../../redux';
 import {
   settingsLocale,
+  settingsRecordedVideosFolder,
   settingsWallpaperEngineFolder,
 } from '../../redux/reducers/settings';
 import styles from './styles.module.css';
@@ -34,10 +35,16 @@ const Settings: React.FC<SettingsProps> = (props) => {
   const wallpaperEngineFolder = useTypedSelector(
     (state) => state.settings.settings?.wallpaperEngineFolder
   );
+  const recordedVideosFolder = useTypedSelector(
+    (state) => state.settings.settings?.recordedVideosFolder
+  );
   const locale = useTypedSelector((state) => state.settings.settings?.locale);
 
   const wallpaperEngineFolderLabel = useTypedMessage({
     id: 'settingsWallpaperEngineFolderLabel',
+  });
+  const recordedVideosFolderLabel = useTypedMessage({
+    id: 'settingsRecordedVideosFolderLabel',
   });
   const localeLabel = useTypedMessage({
     id: 'settingsLocaleLabel',
@@ -45,17 +52,31 @@ const Settings: React.FC<SettingsProps> = (props) => {
 
   useEffect(getSettings, [getSettings]);
 
-  const handleFolderNameClick = async () => {
+  const handleWallpaperEngineFolderChange = async () => {
     const result = await dispatch(settingsWallpaperEngineFolder());
     if (
       settingsWallpaperEngineFolder.fulfilled.match(result) &&
       result.payload
     ) {
-      pushToast('settingsWallpaperEngineFolderSelected', 'success');
+      pushToast('settingsFolderSelected', 'success');
       getSettings();
     }
     if (settingsWallpaperEngineFolder.rejected.match(result)) {
-      pushToast('settingsWallpaperEngineFolderSelectionError', 'error');
+      pushToast('settingsFolderSelectionError', 'error');
+    }
+  };
+
+  const handleRecordedVideosFolderChange = async () => {
+    const result = await dispatch(settingsRecordedVideosFolder());
+    if (
+      settingsRecordedVideosFolder.fulfilled.match(result) &&
+      result.payload
+    ) {
+      pushToast('settingsFolderSelected', 'success');
+      getSettings();
+    }
+    if (settingsRecordedVideosFolder.rejected.match(result)) {
+      pushToast('settingsFolderSelectionError', 'error');
     }
   };
 
@@ -92,7 +113,25 @@ const Settings: React.FC<SettingsProps> = (props) => {
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton onClick={handleFolderNameClick} edge="end">
+              <IconButton
+                onClick={handleWallpaperEngineFolderChange}
+                edge="end"
+              >
+                <FolderIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
+      <TextField
+        disabled
+        value={recordedVideosFolder}
+        label={recordedVideosFolderLabel}
+        variant="outlined"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={handleRecordedVideosFolderChange} edge="end">
                 <FolderIcon />
               </IconButton>
             </InputAdornment>

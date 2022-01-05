@@ -10,6 +10,8 @@ const validChannels = [
   'settings-window-show-fail',
   'settings-set-wallpaper-engine-folder-success',
   'settings-set-wallpaper-engine-folder-fail',
+  'settings-set-recorded-videos-folder-success',
+  'settings-set-recorded-videos-folder-fail',
   'settings-set-locale-success',
   'settings-set-locale-fail',
   'vk-authenticate-success',
@@ -24,51 +26,40 @@ const validChannels = [
   'make-archive-success',
 ];
 
-// const validChannels = [
-//   'current-wallpaper',
-//   'settings-get',
-//   'settings-set-wallpaper-engine-folder',
-//   'settings-set-locale',
-//   'settings-window-show',
-//   'vk-authenticate',
-//   'vk-get-token',
-//   'vk-sign-out',
-//   'vk-next-archive-number',
-//   'make-archive',
-// ];
-
 contextBridge.exposeInMainWorld('electron', {
-
   ipcRenderer: {
     settingsGet: (payload) => {
-      ipcRenderer.send('settings-get', payload)
+      ipcRenderer.send('settings-get', payload);
     },
     currentWallpaper: (payload) => {
-      ipcRenderer.send('current-wallpaper', payload)
+      ipcRenderer.send('current-wallpaper', payload);
     },
     settingsSetWallpaperEngineFolder: () => {
-      ipcRenderer.send('settings-set-wallpaper-engine-folder')
+      ipcRenderer.send('settings-set-wallpaper-engine-folder');
+    },
+    settingsSetRecordedVideosFolder: () => {
+      ipcRenderer.send('settings-set-recorded-videos-folder');
     },
     settingsSetLocale: (payload) => {
-      ipcRenderer.send('settings-set-locale', payload)
+      ipcRenderer.send('settings-set-locale', payload);
     },
     settingsWindowShow: () => {
-      ipcRenderer.send('settings-window-show')
+      ipcRenderer.send('settings-window-show');
     },
     vkAuthenticate: () => {
-      ipcRenderer.send('vk-authenticate')
+      ipcRenderer.send('vk-authenticate');
     },
     vkGetToken: () => {
-      ipcRenderer.send('vk-get-token')
+      ipcRenderer.send('vk-get-token');
     },
     vkSignOut: () => {
-      ipcRenderer.send('vk-sign-out')
+      ipcRenderer.send('vk-sign-out');
     },
     vkNextArchiveNumber: () => {
-      ipcRenderer.send('vk-next-archive-number')
+      ipcRenderer.send('vk-next-archive-number');
     },
     makeArchive: (payload) => {
-      ipcRenderer.send('make-archive', payload)
+      ipcRenderer.send('make-archive', payload);
     },
     // myPing() {
     //   ipcRenderer.send('ipc-example', 'ping');

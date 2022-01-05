@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { LocaleCode } from '../../../common/localization';
-import { Settings } from '../../../common/types/Settings'
+import { Settings } from '../../../common/types/Settings';
 
 export interface State {
   settings: Settings | null;
@@ -14,9 +14,12 @@ export const getSettings = createAsyncThunk(
   'settings/getSettings',
   async (showWindow: boolean) => {
     const getSettingsPromise = new Promise<Settings>((resolve, reject) => {
-      window.electron.ipcRenderer.once('settings-get-success', (settings: Settings) => {
-        resolve(settings);
-      });
+      window.electron.ipcRenderer.once(
+        'settings-get-success',
+        (settings: Settings) => {
+          resolve(settings);
+        }
+      );
       window.electron.ipcRenderer.once('settings-get-fail', () => reject());
       window.electron.ipcRenderer.settingsGet(showWindow);
     });
@@ -25,8 +28,12 @@ export const getSettings = createAsyncThunk(
 
     if (showWindow) {
       const showWindowPromise = new Promise<void>((resolve, reject) => {
-        window.electron.ipcRenderer.once('settings-window-show-success', () => resolve());
-        window.electron.ipcRenderer.once('settings-window-show-fail', () => reject());
+        window.electron.ipcRenderer.once('settings-window-show-success', () =>
+          resolve()
+        );
+        window.electron.ipcRenderer.once('settings-window-show-fail', () =>
+          reject()
+        );
         window.electron.ipcRenderer.settingsWindowShow();
       });
 
@@ -47,10 +54,29 @@ export const settingsWallpaperEngineFolder = createAsyncThunk(
           resolve(set);
         }
       );
-      window.electron.ipcRenderer.once('settings-set-wallpaper-engine-folder-fail', () =>
-        reject()
+      window.electron.ipcRenderer.once(
+        'settings-set-wallpaper-engine-folder-fail',
+        () => reject()
       );
       window.electron.ipcRenderer.settingsSetWallpaperEngineFolder();
+    })
+);
+
+export const settingsRecordedVideosFolder = createAsyncThunk(
+  'settings/settingsRecordedVideosFolder',
+  () =>
+    new Promise<boolean>((resolve, reject) => {
+      window.electron.ipcRenderer.once(
+        'settings-set-recorded-videos-folder-success',
+        (set: boolean) => {
+          resolve(set);
+        }
+      );
+      window.electron.ipcRenderer.once(
+        'settings-set-recorded-videos-folder-fail',
+        () => reject()
+      );
+      window.electron.ipcRenderer.settingsSetRecordedVideosFolder();
     })
 );
 
@@ -64,7 +90,9 @@ export const settingsLocale = createAsyncThunk(
           resolve(returnedLocaleCode);
         }
       );
-      window.electron.ipcRenderer.once('settings-set-locale-fail', () => reject());
+      window.electron.ipcRenderer.once('settings-set-locale-fail', () =>
+        reject()
+      );
       window.electron.ipcRenderer.settingsSetLocale(localeCode);
     })
 );

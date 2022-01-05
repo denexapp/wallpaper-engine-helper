@@ -4,9 +4,9 @@ import {
   dialog,
   ipcMain,
   OpenDialogOptions,
+  safeStorage,
 } from 'electron';
 import electronSettings from 'electron-settings';
-import { safeStorage } from 'electron';
 import { JsonDecoder } from 'ts.data.json';
 import { defaultLocale, LocaleCode } from '../../common/localization';
 import { Settings } from '../../common/types/Settings';
@@ -28,13 +28,17 @@ const settingsDecoder = JsonDecoder.object<Settings>(
         safeStorage.decryptString(Buffer.from(value, 'latin1'))
       )
     ),
+    recordedVideosFolder: JsonDecoder.failover(
+      app.getPath('videos'),
+      JsonDecoder.string
+    ),
   },
   'settingsDecoder'
 );
 
 export const getSettings = async (): Promise<Settings> => {
   const settingsObject = await electronSettings.get();
-  return await settingsDecoder.decodeToPromise(settingsObject);
+  return settingsDecoder.decodeToPromise(settingsObject);
 };
 
 export const setVKAccessToken = async (accessToken: string) => {
@@ -92,6 +96,31 @@ const settings = () => {
       }
     } catch {
       event.reply('settings-set-wallpaper-engine-folder-fail');
+    }
+  });
+
+  ipcMain.on('settings-set-recorded-videos-folder', async (event) => {
+    try {
+      const mainWindow = BrowserWindow.fromWebContents(event.sender);
+      const properties: OpenDialogOptions = {
+        properties: ['openDirectory'],
+      };
+
+      const promise =
+        mainWindow === null
+          ? dialog.showOpenDialog(properties)
+          : dialog.showOpenDialog(mainWindow, properties);
+
+      const [path] = (await promise).filePaths;
+
+      if (path !== undefined) {
+        await electronSettings.set('recordedVideosFolder', path);
+        event.reply('settings-set-recorded-videos-folder-success', true);
+      } else {
+        event.reply('settings-set-recorded-videos-folder-success', false);
+      }
+    } catch {
+      event.reply('settings-set-recorded-videos-folder-fail');
     }
   });
 
