@@ -11,55 +11,69 @@ import { JsonDecoder } from 'ts.data.json';
 import { defaultLocale, LocaleCode } from '../../common/localization';
 import { Settings } from '../../common/types/Settings';
 
-// export type PartialSettings = Partial<Settings>
+const settingsPrefix = 'settings';
+const vkAccessTokenPrefix = 'vkAccessToken';
 
-const settingsDecoder = JsonDecoder.object<Settings>(
-  {
-    wallpaperEngineFolder: JsonDecoder.optional(JsonDecoder.string),
-    locale: JsonDecoder.failover(
-      defaultLocale,
-      JsonDecoder.oneOf(
-        [JsonDecoder.isExactly('en-US'), JsonDecoder.isExactly('ru-RU')],
-        'locale'
-      )
-    ),
-    vkAccessToken: JsonDecoder.optional(
-      JsonDecoder.string.map((value) =>
-        safeStorage.decryptString(Buffer.from(value, 'latin1'))
-      )
-    ),
-    recordedVideosFolder: JsonDecoder.failover(
-      app.getPath('videos'),
-      JsonDecoder.string
-    ),
-  },
-  'settingsDecoder'
+const settingsDecoder = JsonDecoder.failover<Settings>(
+  { locale: defaultLocale, recordedVideosFolder: app.getPath('videos') },
+  JsonDecoder.object(
+    {
+      wallpaperEngineFolder: JsonDecoder.optional(JsonDecoder.string),
+      locale: JsonDecoder.failover(
+        defaultLocale,
+        JsonDecoder.oneOf(
+          [JsonDecoder.isExactly('en-US'), JsonDecoder.isExactly('ru-RU')],
+          'locale'
+        )
+      ),
+      recordedVideosFolder: JsonDecoder.failover(
+        app.getPath('videos'),
+        JsonDecoder.string
+      ),
+    },
+    'settingsDecoder'
+  )
+);
+
+const vkAccessTokenDecoder = JsonDecoder.optional(
+  JsonDecoder.string.map((value) =>
+    safeStorage.decryptString(Buffer.from(value, 'latin1'))
+  )
 );
 
 export const getSettings = async (): Promise<Settings> => {
-  const settingsObject = await electronSettings.get();
+  const settingsObject = await electronSettings.get(settingsPrefix);
   return settingsDecoder.decodeToPromise(settingsObject);
+};
+
+export const setSettingsField = async <T extends keyof Settings>(
+  fieldName: T,
+  value: Exclude<Settings[T], undefined>
+): Promise<void> => {
+  await electronSettings.set(`${settingsPrefix}.${fieldName}`, value);
+};
+
+export const getVkAccessToken = async (): Promise<string | undefined> => {
+  const undecodedToken = await electronSettings.get(vkAccessTokenPrefix);
+  return vkAccessTokenDecoder.decodeToPromise(undecodedToken);
 };
 
 export const setVKAccessToken = async (accessToken: string) => {
   await electronSettings.set(
-    'vkAccessToken',
+    vkAccessTokenPrefix,
     safeStorage.encryptString(accessToken).toString('latin1')
   );
 };
 
 export const deleteVKAccessToken = async () => {
-  await electronSettings.unset('vkAccessToken');
+  await electronSettings.unset(vkAccessTokenPrefix);
 };
 
 const settings = () => {
   ipcMain.on('settings-get', async (event, showErrorDialogOnError: boolean) => {
     try {
-      const settingsObject = await electronSettings.get();
-      const decodedSettings = await settingsDecoder.decodeToPromise(
-        settingsObject
-      );
-      event.reply('settings-get-success', decodedSettings);
+      const result = await getSettings();
+      event.reply('settings-get-success', result);
     } catch {
       event.reply('settings-get-fail');
       if (showErrorDialogOnError) {
@@ -89,7 +103,7 @@ const settings = () => {
       const [path] = (await promise).filePaths;
 
       if (path !== undefined) {
-        await electronSettings.set('wallpaperEngineFolder', path);
+        await setSettingsField('wallpaperEngineFolder', path);
         event.reply('settings-set-wallpaper-engine-folder-success', true);
       } else {
         event.reply('settings-set-wallpaper-engine-folder-success', false);
@@ -114,7 +128,7 @@ const settings = () => {
       const [path] = (await promise).filePaths;
 
       if (path !== undefined) {
-        await electronSettings.set('recordedVideosFolder', path);
+        await setSettingsField('recordedVideosFolder', path);
         event.reply('settings-set-recorded-videos-folder-success', true);
       } else {
         event.reply('settings-set-recorded-videos-folder-success', false);
@@ -126,7 +140,7 @@ const settings = () => {
 
   ipcMain.on('settings-set-locale', async (event, localeCode: LocaleCode) => {
     try {
-      await electronSettings.set('locale', localeCode);
+      await setSettingsField('locale', localeCode);
       event.reply('settings-set-locale-success', localeCode);
     } catch {
       event.reply('settings-set-locale-fail');
@@ -152,10 +166,7 @@ const settings = () => {
 
   ipcMain.on('settings-set-vk-access-token', async (event, accessToken) => {
     try {
-      await electronSettings.set(
-        'vkAccessToken',
-        safeStorage.encryptString(accessToken).toString('latin1')
-      );
+      await setVKAccessToken(accessToken);
       event.reply('settings-set-vk-token-success');
     } catch {
       event.reply('settings-set-vk-token-fail');

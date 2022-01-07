@@ -6,6 +6,7 @@ import { setDescription } from '../../redux/reducers/post';
 import Documents from '../Documents';
 import Subheader from '../Subheader';
 import TypedMessage from '../TypedMessage';
+import Video from '../Video';
 import styles from './styles.module.css';
 
 const Post: React.FC = () => {
@@ -22,6 +23,7 @@ const Post: React.FC = () => {
         <TypedMessage id="postHeader" />
       </Subheader>
       <Documents />
+      <Video />
       <TextField
         value={description}
         onChange={(event) => onDescriptionChange(event.target.value)}

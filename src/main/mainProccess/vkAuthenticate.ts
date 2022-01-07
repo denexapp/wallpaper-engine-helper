@@ -1,7 +1,11 @@
 import { BrowserWindow, ipcMain, session, shell } from 'electron';
 import VK from 'vk-ts';
 import { vkAppId } from '../utils/consts';
-import { deleteVKAccessToken, getSettings, setVKAccessToken } from './settings';
+import {
+  deleteVKAccessToken,
+  getVkAccessToken,
+  setVKAccessToken,
+} from './settings';
 import state from './state';
 
 const VK_AUTHORIZE_URL = 'https://oauth.vk.com/authorize';
@@ -103,7 +107,7 @@ const authenticate = () => {
 const vkAuthenticate = () => {
   ipcMain.on('vk-authenticate', async (event) => {
     try {
-      let accessToken = (await getSettings()).vkAccessToken ?? null;
+      let accessToken = (await getVkAccessToken()) ?? null;
       if (accessToken === null) {
         accessToken = (await authenticate()).accessToken;
         if (accessToken !== null) {
@@ -122,7 +126,7 @@ const vkAuthenticate = () => {
 
   ipcMain.on('vk-get-token', async (event) => {
     try {
-      const accessToken = (await getSettings()).vkAccessToken ?? null;
+      const accessToken = (await getVkAccessToken()) ?? null;
       state.accessToken = accessToken;
       state.vk = accessToken === null ? null : new VK(accessToken);
       event.reply('vk-get-token-success', { completed: accessToken !== null });

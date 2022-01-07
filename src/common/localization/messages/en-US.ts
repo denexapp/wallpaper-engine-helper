@@ -47,7 +47,7 @@ const enUsMessages = {
   userSignedIn: 'Signed in',
   userSignedOut: 'Signed out',
 
-  documentsRequestError: 'Can\t get archive id',
+  documentsRequestError: "Can't get archive id",
   documentsRequestSuccess: 'Archive id recieved',
   documentsArchiveNumberLabel: 'Archive id',
   documentsHint: 'Sign in to recieve archive id automatically',
@@ -68,7 +68,7 @@ const enUsMessages = {
   wallpaperInfoName: 'Name',
   wallpaperInfoType: 'Wallpaper type',
   wallpaperInfoHint:
-    'Specify Wallpaper Engine folder to recieve wallpaper info automatically',
+    'Specify Wallpaper Engine folder in the settings to recieve wallpaper info automatically',
   wallpaperInfoGettingError: "Can't get wallpaper info",
   wallpaperInfoGotten: 'Wallpaper info loaded',
   wallpaperInfoWithoutResolution: "Can't get video resolution",
@@ -79,6 +79,12 @@ const enUsMessages = {
   resolutionResolution: 'Resolution',
   resolutionWidth: 'Width',
   resolutionHeight: 'Height',
+
+  videoRecordedVideoGettingError: "Can't find recorded video",
+  videoRecordedVideoGettingSuccess: 'Recorded video found',
+  videoRecordedVideoLabel: 'Recorded video',
+  videoHint:
+    'Specify folder with recorded videos in the settings to recieve latest recorded video automatically',
 };
 
 export default enUsMessages;

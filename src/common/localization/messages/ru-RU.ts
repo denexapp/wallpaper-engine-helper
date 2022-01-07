@@ -86,6 +86,12 @@ const ruRuMessages: Messages = {
   resolutionResolution: 'Разрешение',
   resolutionWidth: 'Ширина',
   resolutionHeight: 'Высота',
+
+  videoRecordedVideoGettingError: 'Не получилось найти записанное видео',
+  videoRecordedVideoGettingSuccess: 'Записанное видео найдено',
+  videoRecordedVideoLabel: 'Записанное видео',
+  videoHint:
+    'Укажите папку для записанных видео в настройках, чтобы подгружать последнее записанное видео автоматически',
 };
 
 export default ruRuMessages;

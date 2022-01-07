@@ -3,6 +3,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import documents from './reducers/documents';
 import post from './reducers/post';
 import settings from './reducers/settings';
+import video from './reducers/video';
 import vkAuth from './reducers/vkAuth';
 import wallpaperInfo from './reducers/wallpaperInfo';
 
@@ -11,6 +12,7 @@ export const store = configureStore({
     documents: documents.reducer,
     post: post.reducer,
     settings: settings.reducer,
+    video: video.reducer,
     vkAuth: vkAuth.reducer,
     wallpaperInfo: wallpaperInfo.reducer,
   },

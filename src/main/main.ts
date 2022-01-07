@@ -10,16 +10,17 @@
  */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import path from 'path';
 import { app, BrowserWindow, shell } from 'electron';
-import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import { resolveHtmlPath } from './util';
+import { autoUpdater } from 'electron-updater';
+import path from 'path';
 import archive from './mainProccess/archive';
 import currentWallpaper from './mainProccess/currentWallpaper';
+import lastRecordedVideoPath from './mainProccess/lastRecordedVideoPath';
 import settings from './mainProccess/settings';
 import vkAuthenticate from './mainProccess/vkAuthenticate';
 import vkNextArchiveNumber from './mainProccess/vkNextArchiveNumber';
+import { resolveHtmlPath } from './util';
 
 export default class AppUpdater {
   constructor() {
@@ -143,3 +144,4 @@ vkNextArchiveNumber();
 settings();
 currentWallpaper();
 archive();
+lastRecordedVideoPath();

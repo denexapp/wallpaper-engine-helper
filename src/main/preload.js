@@ -24,6 +24,8 @@ const validChannels = [
   'current-wallpaper-fail',
   'make-archive-fail',
   'make-archive-success',
+  'last-recorded-video-path-success',
+  'last-recorded-video-path-fail',
 ];
 
 contextBridge.exposeInMainWorld('electron', {
@@ -60,6 +62,9 @@ contextBridge.exposeInMainWorld('electron', {
     },
     makeArchive: (payload) => {
       ipcRenderer.send('make-archive', payload);
+    },
+    lastRecordedVideoPath: (payload) => {
+      ipcRenderer.send('last-recorded-video-path', payload);
     },
     // myPing() {
     //   ipcRenderer.send('ipc-example', 'ping');
